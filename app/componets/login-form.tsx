@@ -24,7 +24,7 @@ const LoginForm = () => {
     // a
 
     // c -
-    const sendMessage = `Hey whats up hello`;
+    const sendMessage = `Hi, welcome`;
     const sign = await signer.signMessage(sendMessage);
 
     formData.append("sig", sign);
@@ -37,7 +37,7 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    if (state?.startsWith("noice")) router.push("/main");
+    if (state?.startsWith("noice")) router.push("/profile");
   }, [state, router]);
 
   return (

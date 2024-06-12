@@ -6,9 +6,9 @@ import MainFooter from "./componets/mainfooter";
 
 
 export const metadata: Metadata = {
-  title: "pictopod",
+  title: "Phenuop",
   description:
-    "A place where you are able to load an image and set it on the blockchain alowing others to eiter  buy it or sell it or save it towards their stash",
+    "Welcome to phenuop the #1 spot to get your latest coin for your clothes. ",
 };
 
 export default function RootLayout({

@@ -1,3 +1,5 @@
+"use server"
+ 
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { SessionData, defaultSession, sessionOptions } from "./dictionary";
@@ -6,6 +8,7 @@ import { ethers } from "ethers";
 import { User } from "../models/User";
 import { redirect } from "next/navigation";
 import { compare, hash } from "bcryptjs";
+import { sendMail } from "./mail";
 
 const sendMessage = `Hi, welcome to hell`;
 
@@ -82,6 +85,32 @@ export const logout = async () => {
   redirect("/");
 };
 
+export async function ContactEmail(
+  prevState: string | object | undefined,
+  formData: FormData
+) {
+  const data = Object.fromEntries(formData.entries());
+
+  try {
+    
+    await sendMail({
+      to: process.env.SMTP_EMAIL as string,
+      name: data.name as string,
+      subject: data.subject as string,
+      content: data.content as string,
+    });
+
+    return {
+      message: `${name} your message has been sent, if you cant wait... call`,
+    };
+
+  } catch (error) {
+    console.log(error);
+    return { message: "I am sorry but the request failed.... you got denied" };
+  }
+}
+
+
 // handle user register
 export const Registrar = async (
   state: string | undefined,
@@ -106,6 +135,7 @@ export const Registrar = async (
       password: P$P,
       email,
       metaAddress: metaAddress as string | undefined,
+      sig
     });
 
     await newUser.save();

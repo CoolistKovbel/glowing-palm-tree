@@ -16,19 +16,23 @@ export const RegisterForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
 
     const formData = new FormData(e.currentTarget);
     const sendMessage = `Hi, welcome`;
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
+    const sign = await signer.signMessage(sendMessage);
 
 
-      console.log(signer._address)
-
+    formData.append("sig", sign)
 
     try {
+
+
       dispatch(formData);
+
+
+
     } catch (error) {
       console.error("Error:", error);
     }
