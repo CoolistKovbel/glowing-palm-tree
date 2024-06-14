@@ -6,26 +6,27 @@ export default function Home() {
     {
       title: "Specialing in social marketing",
       description: "Getting from 0 followers to 1000 is our speciality",
-      image: "/marketingfea1.avif",
+      image: "/socialmakfea2.avif",
     },
     {
       title: " Need to market a product or design ",
       description:
         "Chat with us and we will be able to discouse the best out come we can provide so your content reaches the right people.",
-      image: "/featoure02.avif",
+      image: "/marketingfea1.avif",
     },
     {
       title: " Saftey and security ",
       description:
         " Working with us we understand privicy, we can always have an open or close session depending on your preferences",
-      image: "/nfttrader.avif",
+      image: "/socialmakfea2.avif",
     },
   ];
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 p-5">
       <div className="w-full flex items-center gap-4 flex-col justify-around md:flex-row ">
-        <div className="flex flex-col gap-2 justify-between items-start bg-[#222] md:w-[40%] p-4 rounded-lg h-[300px]">
+
+        <div className="flex flex-col gap-2 justify-between items-start bg-[#222] md:w-[50%] p-4 rounded-lg h-[300px]">
           <header className="w-full">
             <h1 className="text-3xl font-bold  mb-4 capitalize">
               Need some marketing done

@@ -1,26 +1,26 @@
-"use client"
+"use client";
 
 import React from "react";
+import { MakeARequest } from "../lib/action";
 
 const ContactRequestForm = () => {
+  const handleRequest = async (e: any) => {
+    e.preventDefault();
 
+    try {
+      console.log("hjandling request");
 
-    const handleRequest = async (e:any) => {
-        e.preventDefault()
+      const formData = new FormData(e.currentTarget);
 
-        try {
-            console.log("hjandling request")
+      const gg = await MakeARequest(formData);
 
-            
-        } catch (error) {
-            console.log("error")
+      console.log(gg)
 
-        }
+      // Reest form after
+    } catch (error) {
+      console.log("error");
     }
-
-
-
-
+  };
 
   return (
     <section className="p-10">
@@ -38,9 +38,35 @@ const ContactRequestForm = () => {
           />
         </label>
 
+        <label className="bg-[#222] p-3 flex  text-center justify-between">
+          <span>Title:</span>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            placeholder="enter a title"
+            className="p-2 bg-[#111]"
+          />
+        </label>
+
         <label className="bg-[#222] p-3">
           <span className="mb-2">Description:</span>
-          <textarea className="w-full h-[200px] resize-none overflow-auto bg-[#111] text-white p-2" />
+          <textarea
+            className="w-full h-[200px] resize-none overflow-auto bg-[#111] text-white p-2"
+            name="description"
+            id="description"
+          />
+        </label>
+
+        <label className="bg-[#222] p-3 flex  text-center justify-between">
+          <span className="mb-2">minum payment:</span>
+          <input
+            type="number"
+            name="minpay"
+            id="minPay"
+            placeholder="enter an amount"
+            className="p-2 bg-[#111]"
+          />
         </label>
 
         <button className="bg-[#222] p-2 hover:bg-[#333]">submit</button>

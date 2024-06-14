@@ -14,7 +14,6 @@ const JobSchema = new mongoose.Schema<IJob>(
     title: {
       type: String,
     },
-
     description: {
       type: String,
     },

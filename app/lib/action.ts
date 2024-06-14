@@ -1,5 +1,5 @@
-"use server"
- 
+"use server";
+
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { SessionData, defaultSession, sessionOptions } from "./dictionary";
@@ -9,6 +9,7 @@ import { User } from "../models/User";
 import { redirect } from "next/navigation";
 import { compare, hash } from "bcryptjs";
 import { sendMail } from "./mail";
+import { Job } from "../models/jobs";
 
 const sendMessage = `Hi, welcome to hell`;
 
@@ -90,26 +91,71 @@ export async function ContactEmail(
   formData: FormData
 ) {
   const data = Object.fromEntries(formData.entries());
+  const content = data.content as string;
 
   try {
-    
     await sendMail({
       to: process.env.SMTP_EMAIL as string,
-      name: data.name as string,
+      name: data.email as string,
       subject: data.subject as string,
-      content: data.content as string,
+      content: content.concat(` Message situated from ${data.email} `),
     });
 
     return {
-      message: `${name} your message has been sent, if you cant wait... call`,
+      message: `${data.email} your message has been sent, if you cant wait... call`,
     };
-
   } catch (error) {
     console.log(error);
     return { message: "I am sorry but the request failed.... you got denied" };
   }
 }
 
+// Create a job request
+export async function MakeARequest(formData: FormData) {
+  const { email, description, minpay, title } = Object.fromEntries(formData);
+
+  const user = await getSession();
+
+  try {
+    console.log("making a request");
+
+    await dbConnect();
+
+    const yon = new Job({
+      title: title as string,
+      description: description as string,
+      author: user.userId,
+      reward: minpay,
+    });
+
+    await yon.save();
+
+    return "success"
+  } catch (error) {
+    console.log(error);
+    return "fail"
+  }
+}
+
+// grab all market request
+export async function  SingleJobRequest(jobID:string ) {
+  try {
+    console.log("grabbing single job")
+
+    await dbConnect()
+
+
+    const singleJob = await Job.find({_id: jobID}).lean()
+
+
+    console.log(singleJob)
+
+    return singleJob
+
+  } catch (error) {
+    console.log("error")
+  }
+}
 
 // handle user register
 export const Registrar = async (
@@ -135,7 +181,7 @@ export const Registrar = async (
       password: P$P,
       email,
       metaAddress: metaAddress as string | undefined,
-      sig
+      sig,
     });
 
     await newUser.save();
@@ -148,43 +194,28 @@ export const Registrar = async (
   }
 };
 
-
 // Handle user new job request
-export const handleNewJobRequest = async (userInput:FormData) => {
-
-
-
+export const handleNewJobRequest = async (userInput: FormData) => {
   try {
-    
-    console.log("handling new jobn")
+    console.log("handling new jobn");
 
-    await dbConnect()
-
-
+    await dbConnect();
 
 
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
-export const handleUserUpdate = async (userInput:FormData) => {
-
-  const {username, email, password, metaAddress} = Object.fromEntries(userInput)
+export const handleUserUpdate = async (userInput: FormData) => {
+  const { username, email, password, metaAddress } =
+    Object.fromEntries(userInput);
 
   try {
-    
-    console.log("handling new jobn")
+    console.log("handling new jobn");
 
-    await dbConnect()
-
-
-    
-
-
-
-
+    await dbConnect();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};

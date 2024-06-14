@@ -1,8 +1,12 @@
+import HeaderHub from "@/app/componets/header-hub";
+import { getSession } from "@/app/lib/action";
+import { Job } from "@/app/models/jobs";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
-const Page = () => {
+const Page = async () => {
+
+  const isLogged = await getSession()
 
   const recentlyCompleted = [
     {
@@ -43,30 +47,13 @@ const Page = () => {
     },
   ];
 
+  const jobRequests = await Job.find({}).lean()
 
 
   return (
     <main className="w-full min-h-screen p-5">
 
-      <header className="w-full p-3 bg-[#111] flex flex-col gap-2 ">
-
-        <h2 className="text-2xl md:text-4xl font-bold">Welcome to the DefenMarketing Hub</h2>
-
-        <p className="text-sm text-gray-500">
-          Looking to make a request or help some customer handle their marketing request.
-        </p>
-
-        <div className="flex items-center justifty-between w-full p-4 gap-4 font-bold">
-
-          <Link href="/request" className="bg-[#444] hover:bg-[#222] p-2">
-            Request now
-          </Link>
-
-          <span className="bg-[#222] p-2 rounded-lg">handle below 👇🏼</span>
-
-        </div>
-
-      </header>
+      <HeaderHub isLogged={isLogged} serverJobs={jobRequests} />
 
       <div className="bg-[#555] p-4">
 

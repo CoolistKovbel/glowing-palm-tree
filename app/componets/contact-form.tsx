@@ -24,13 +24,13 @@ const ContactForm = () => {
     <form className="mb-8" onSubmit={send}>
       
       <div className="mb-4">
-        <label htmlFor="name" className="block text-gray-400 text-sm mb-2 ">
-          Name:
+        <label htmlFor="email" className="block text-gray-400 text-sm mb-2 ">
+          Email:
         </label>
         <input
-          type="text"
-          id="name"
-          name="name"
+          type="email"
+          id="email"
+          name="email"
           className="w-full text-black px-4 py-2 rounded-md border border-gray-600 focus:outline-none focus:border-blue-400"
         />
       </div>
