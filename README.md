@@ -1,5 +1,6 @@
-# Phenuop
+# Defenmarket
 
-This is going to be a small applicatoin where a customer will be able to create an account and use their nft or account to interact with our site.
+This is going to be a small marting website allowing users to submit their marketing request and others to accept and get paid.
 
-This is a little online store a quick spot for your conveient needs.
+
+

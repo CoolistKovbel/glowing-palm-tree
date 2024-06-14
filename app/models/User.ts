@@ -10,6 +10,7 @@ export interface IUser {
   isPro: boolean;
   metaAddress: string;
   sig: string;
+  earned: number | string;
 }
 
 // TODO: Make it better......
@@ -45,6 +46,10 @@ const UserSchema = new mongoose.Schema<IUser>(
     sig: {
       type: String || null,
       unique: true,
+    },
+    earned: {
+      type: String || Number,
+      default: 0
     },
     role: {
       type: String,

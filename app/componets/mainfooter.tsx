@@ -8,13 +8,13 @@ const MainFooter = () => {
         <div className='flex items-center justify-between flex-col md:flex-row w-full '>
 
             <div className='w-full p-5'>
-                <h2 className='text-2xl'><Link href="/">pictopod</Link></h2>
-                <p className='text-gray-500'>An app for your visual needs and desires</p>
+                <h2 className='text-2xl'><Link href="/">Defenmarket</Link></h2>
+                <p className='text-gray-500'>A service that helps your message get accross</p>
             </div>
 
 
             <div className='flex flex-col gap-4 items-center p-4 bg-[#222]'>
-                <Link href="/gallary" className='bg-[#444] p-2 hover:bg-[#111]'>Gallary</Link>
+                <Link href="/request" className='bg-[#444] p-2 hover:bg-[#111]'>Request</Link>
                 <Link href="/FAQ" className='bg-[#444] p-2 hover:bg-[#111]'>F.A.Q</Link>
             </div>
 

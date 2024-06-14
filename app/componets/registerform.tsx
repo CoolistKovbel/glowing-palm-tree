@@ -23,16 +23,10 @@ export const RegisterForm = () => {
     const signer = provider.getSigner();
     const sign = await signer.signMessage(sendMessage);
 
-
-    formData.append("sig", sign)
+    formData.append("sig", sign);
 
     try {
-
-
       dispatch(formData);
-
-
-
     } catch (error) {
       console.error("Error:", error);
     }

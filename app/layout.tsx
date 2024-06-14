@@ -6,9 +6,9 @@ import MainFooter from "./componets/mainfooter";
 
 
 export const metadata: Metadata = {
-  title: "Phenuop",
+  title: "Defenmarketing",
   description:
-    "Welcome to phenuop the #1 spot to get your latest coin for your clothes. ",
+    "Welcome to defenmarketing, a decentralized application allow you to be able to help or request to market. Earning you an extra buck just for marketing.",
 };
 
 export default function RootLayout({

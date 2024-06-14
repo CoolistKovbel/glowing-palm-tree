@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { User } from "./User";
-import { Blog } from "./Blog";
+
 
 export interface IComment {
   content?: string;
@@ -12,7 +12,6 @@ export interface IComment {
   likes?: any;
   dislikes?: any;
   author?: any;
-  blogPost?: any;
 }
 
 const CommentSchema = new mongoose.Schema<IComment>(
@@ -24,10 +23,6 @@ const CommentSchema = new mongoose.Schema<IComment>(
     comment: {
       type: String,
       require,
-    },
-    blogPost: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: Blog,
     },
     likes: [
       {

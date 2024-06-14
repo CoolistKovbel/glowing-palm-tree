@@ -22,6 +22,7 @@ const ContactForm = () => {
 
   return (
     <form className="mb-8" onSubmit={send}>
+      
       <div className="mb-4">
         <label htmlFor="name" className="block text-gray-400 text-sm mb-2 ">
           Name:

@@ -147,3 +147,44 @@ export const Registrar = async (
     return "notnoice";
   }
 };
+
+
+// Handle user new job request
+export const handleNewJobRequest = async (userInput:FormData) => {
+
+
+
+  try {
+    
+    console.log("handling new jobn")
+
+    await dbConnect()
+
+
+
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const handleUserUpdate = async (userInput:FormData) => {
+
+  const {username, email, password, metaAddress} = Object.fromEntries(userInput)
+
+  try {
+    
+    console.log("handling new jobn")
+
+    await dbConnect()
+
+
+    
+
+
+
+
+  } catch (error) {
+    console.log(error)
+  }
+}
