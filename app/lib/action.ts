@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { compare, hash } from "bcryptjs";
 import { sendMail } from "./mail";
 import { Job } from "../models/jobs";
+import { Checkout } from "../models/checkout";
 
 const sendMessage = `Hi, welcome to hell`;
 
@@ -110,6 +111,31 @@ export async function ContactEmail(
   }
 }
 
+
+// Chwckout set up
+export async function AddToCheckOut(formData: FormData) {
+  const { amount, pouch } = Object.fromEntries(formData);
+
+  try {
+    console.log("working on checking out");
+    await dbConnect();
+
+    const gg = new Checkout({
+      amount: amount,
+      product: pouch,
+    });
+
+    await gg.save();
+
+    console.log(gg);
+
+  } catch (error) {
+
+    console.log(error);
+    console.log("error");
+  }
+}
+
 // Create a job request
 export async function MakeARequest(formData: FormData) {
   const { email, description, minpay, title } = Object.fromEntries(formData);
@@ -130,30 +156,27 @@ export async function MakeARequest(formData: FormData) {
 
     await yon.save();
 
-    return "success"
+    return "success";
   } catch (error) {
     console.log(error);
-    return "fail"
+    return "fail";
   }
 }
 
 // grab all market request
-export async function  SingleJobRequest(jobID:string ) {
+export async function SingleJobRequest(jobID: string) {
   try {
-    console.log("grabbing single job")
+    console.log("grabbing single job");
 
-    await dbConnect()
+    await dbConnect();
 
+    const singleJob = await Job.find({ _id: jobID }).lean();
 
-    const singleJob = await Job.find({_id: jobID}).lean()
+    console.log(singleJob);
 
-
-    console.log(singleJob)
-
-    return singleJob
-
+    return singleJob;
   } catch (error) {
-    console.log("error")
+    console.log("error");
   }
 }
 
@@ -200,8 +223,6 @@ export const handleNewJobRequest = async (userInput: FormData) => {
     console.log("handling new jobn");
 
     await dbConnect();
-
-
   } catch (error) {
     console.log(error);
   }

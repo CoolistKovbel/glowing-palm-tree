@@ -13,7 +13,7 @@ const MainHeader = async () => {
     <header className="flex items-center justify-between w-full bg-[#222] p-4 ">
       <h2 className="p-2 fomt-bold ">
         <Link href="/" className="flex items-center flex-row-reverse gap-4 font-bold">
-          DefenMarketing
+          EzueHealth                                                   
           {/* <Image src="/logo.png" alt=";ogsngs" width={80} height={80} /> */}
         </Link>
       </h2>
@@ -42,8 +42,7 @@ const MainHeader = async () => {
           </div>
         ) : (
           <div className="w-[50%] flex items-center gap-4">
-            <Link href="/quote">Get a quote</Link>
-            
+            <Link href="/ordernow" className="bg-[#222] p-2 hover:bg-[#444] font-bold rounded-lg">Order Now</Link>
           </div>
         )}
 
