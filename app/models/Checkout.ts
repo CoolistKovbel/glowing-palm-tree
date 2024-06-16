@@ -8,6 +8,9 @@ export interface ICheckout {
   author?: any;
   amount?: any;
   product?: any;
+  pending?: any;
+  signature?: any;
+  description?: any;
 }
 
 const CheckoutSchema = new mongoose.Schema<ICheckout>(
@@ -19,10 +22,22 @@ const CheckoutSchema = new mongoose.Schema<ICheckout>(
     amount: {
       type: Number,
     },
+    pending: {
+      type: Boolean,
+      default: false,
+    },
+    signature: {
+      type: Boolean,
+      default: false,
+    },
+    description: {
+      type: String
+    },
     product: {
       type: String,
       default: "BASIC",
     },
+    
   },
   { timestamps: true }
 );

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getSession } from "./lib/action";
 
-export default function Home() {
+export default async  function Home () {
+
   const data = [
     {
       title: "hand picked and curriiated",
@@ -26,17 +28,24 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 p-5">
 
-      <div className="w-full flex items-center gap-4 flex-col justify-around md:flex-row "> 
+      <div className="w-full flex items-center gap-4 flex-col justify-around md:flex-row ">
 
-        <div className="flex flex-col gap-2  items-start bg-[#222] md:w-[50%] p-4 rounded-lg h-[300px]">
-          <h2 className="text-2xl font-bold ">
-            Get yourself your very own first aid kit
-          </h2>
-          <p className="text-sm text-gray-500">
-            On a weakly on monthly bases with all the essential items needed.
-          </p>
-          <Link href="/cart" className="bg-[#111] p-2 rounded-lg font-bold ">
-            Add to card
+        <div className="flex flex-col gap-2 justify-between  md:items-start bg-[#222] md:w-[50%] p-4 rounded-lg h-[300px]">
+          
+          <header className="p-1">
+            <h2 className="text-2xl font-bold mb-2 ">
+              Get yourself your very own first aid kit
+            </h2>
+            <p className="text-sm text-gray-500">
+              On a weakly on monthly bases with all the essential items needed.
+            </p>
+          </header>
+
+          <Link
+            href="/cart"
+            className="bg-[#111] p-2 rounded-lg font-bold text-center "
+          >
+            View more
           </Link>
         </div>
 
@@ -59,8 +68,9 @@ export default function Home() {
           </h2>
         </header>
 
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-4 text-center items-start w-fit bg-[#222] p-4 ">
+        <div className="flex items-center justify-between w-full md:w-[80%] h-[700px] mx-auto flex-col md:flex-row ">
+
+          <div className="flex flex-col gap-4 text-center items-start w-fit bg-[#222] p-4">
             <h2 className="text-2xl text-center font-bold">First Aid kit</h2>
 
             <div>
@@ -77,14 +87,18 @@ export default function Home() {
               </p>
 
               <div className="flex items-center gap-4 flex-col p-4">
-                <button className="bg-[#111] p-3 hover:bg-[#333]">
+                <Link href="/cart" className="bg-[#111] p-3 hover:bg-[#333]">
                   add to cart
-                </button>
-                <button className="bg-[#111] p-3 hover:bg-[#333]">
+                </Link>
+                <Link
+                  href="/ordernow"
+                  className="bg-[#111] p-3 hover:bg-[#333]"
+                >
                   view more
-                </button>
+                </Link>
               </div>
             </div>
+
           </div>
 
           <div className="flex items-start justify-center flex-col gap-4 p-10">
@@ -96,32 +110,9 @@ export default function Home() {
               to band-aid and asprine and more.
             </p>
           </div>
+
         </div>
 
-
-        
-
-        {/* {data.map((item, i) => (
-          <article
-            key={crypto.randomUUID()}
-            className={`flex items-center justify-between flex-col md:flex-row  gap-4 p-5 bg-[#222] drop-shadow-lg rounded-lg ${
-              i % 2 !== 0 ? "bg-[#999] flex-row-reverse" : "flex-row"
-            }`}
-          >
-            <header className="md:w-[60%] bg-[#111] p-10">
-              <h2 className="text-3xl font-bold capitalize">{item.title}</h2>
-              <p className="text-md">{item.description}</p>
-            </header>
-
-            <div className="w-[300px] h-[300px] relative">
-              <Image
-                src={item.image}
-                alt="feature of createing a profile"
-                fill
-              />
-            </div>
-          </article>
-        ))} */}
       </section>
 
       <div className="bg-[#333] p-4">
@@ -205,8 +196,6 @@ export default function Home() {
           </button>
         </form>
       </div>
-
-
     </main>
   );
 }

@@ -11,6 +11,7 @@ import { compare, hash } from "bcryptjs";
 import { sendMail } from "./mail";
 import { Job } from "../models/jobs";
 import { Checkout } from "../models/checkout";
+import { revalidatePath } from "next/cache";
 
 const sendMessage = `Hi, welcome to hell`;
 
@@ -111,28 +112,53 @@ export async function ContactEmail(
   }
 }
 
+// export async function HandleFormSubmit(price: any) {
+//   try {
+//     console.log("handle form", price);
+
+//     const gg = new ethers.providers.Web3Provider(window.ethereum);
+
+//     const signer = await gg.getSigner();
+
+//     const basictranasction = await signer.sendTransaction({
+//       value: ethers.utils.formatUnits(price, "wei"),
+//       gasLimit: 900000,
+//       to: "0x1C352E8F3e035c524F2385818b44859906d3c705",
+//     });
+
+//     await basictranasction.wait();
+
+    
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 // Chwckout set up
 export async function AddToCheckOut(formData: FormData) {
   const { amount, pouch } = Object.fromEntries(formData);
+  const user = await getSession();
 
   try {
     console.log("working on checking out");
     await dbConnect();
 
     const gg = new Checkout({
-      amount: amount,
-      product: pouch,
+      author: user.userId,
+      amount: amount as string,
+      product: pouch as string,
+      pending: true,
     });
 
     await gg.save();
 
-    console.log(gg);
+    revalidatePath("/");
 
+    return "Success";
   } catch (error) {
-
-    console.log(error);
-    console.log("error");
+    console.log("error", error);
+    return "failed";
   }
 }
 

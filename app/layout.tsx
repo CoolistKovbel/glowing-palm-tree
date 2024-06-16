@@ -6,9 +6,9 @@ import MainFooter from "./componets/mainfooter";
 
 
 export const metadata: Metadata = {
-  title: "Ezueaid",
+  title: "Endourhealth",
   description:
-    "Welcome to Ezueaid. Your #1 spot away from your monthly subscription for our special care  health aid box",
+    "Welcome to Endour Health. Your #1 spot away from your monthly subscription for our special care  health aid box",
 };
 
 export default function RootLayout({

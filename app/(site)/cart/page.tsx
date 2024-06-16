@@ -1,30 +1,28 @@
+import TransactionComp from "@/app/componets/cart/ transaction-comp";
+import { PaymentOption } from "@/app/componets/paymentOption";
+import { getSession } from "@/app/lib/action";
+import { Checkout } from "@/app/models/checkout";
 
+const page = async () => {
+  const user = await getSession();
 
+  const gg = await Checkout.find({
+    author: user.userId,
+  }).lean();
 
-const page = () => {
   return (
     <main className="w-full min-h-screen p-10">
-        <header>
+      <h2 className="text-2xl">Tranasctoin</h2>
 
-            <p>
-                
-            </p>
+      <header className="h-[400px] flex-col flex gap-2 mt-5 overflow-auto ">
+        <TransactionComp transactions={gg} />
+      </header>
 
-        </header>
+      <PaymentOption transactions={gg} />
 
-        <footer>
-
-
-
-        </footer>
-
-        <div>
-            <h2>Checkout with crypto</h2>
-        </div>
-
-
+      
     </main>
-  )
-}
+  );
+};
 
-export default page
+export default page;

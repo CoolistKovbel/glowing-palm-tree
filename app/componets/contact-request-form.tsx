@@ -14,7 +14,7 @@ const ContactRequestForm = () => {
 
       const gg = await MakeARequest(formData);
 
-      console.log(gg)
+      console.log(gg);
 
       // Reest form after
     } catch (error) {
