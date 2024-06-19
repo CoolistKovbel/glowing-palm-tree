@@ -8,14 +8,6 @@ const MainHeader = async () => {
 
   const isLogged = user.isLoggedIn;
 
-  const handleClick = () => {
-    try {
-      console.log("handle click");
-    } catch (error) {
-      console.log("handle errror");
-    }
-  };
-
 
   return (
     <header className="flex items-center justify-between w-full bg-[#222] p-4 ">
