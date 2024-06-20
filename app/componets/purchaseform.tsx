@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import React from "react";
 
 const PurchaseForm = () => {
+
   const handleFormSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -49,6 +50,7 @@ const PurchaseForm = () => {
       <button className="text-2xl bg-[#222] mt-2 p-2 rounded-lg ">
         Enter amount
       </button>
+
     </form>
   );
 };

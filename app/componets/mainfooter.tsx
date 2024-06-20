@@ -9,7 +9,7 @@ const MainFooter = () => {
 
             <div className='w-full p-5'>
                 <h2 className='text-2xl font-bold'><Link href="/">EndourHealth</Link></h2>
-                <p className='text-gray-500'>A service that helps your message get accross</p>
+                <p className='text-gray-500'>A service that helps you recieve aid for your actions</p>
             </div>
 
 

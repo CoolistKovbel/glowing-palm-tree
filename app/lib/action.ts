@@ -112,6 +112,50 @@ export async function ContactEmail(
   }
 }
 
+export const updateUserAccount = async (formData: FormData) => {
+  const userObj: any = Object.fromEntries(formData);
+  const user: any = await getSession();
+
+  try {
+    console.log("handleujpdate");
+
+    await dbConnect();
+
+    const userExist: any = await User.findById(user.userId);
+
+    if (!userExist) return "are you valid?";
+
+    const userDocument = userExist;
+
+    for (let key in userDocument.toObject()) {
+      if (Object.hasOwn(userObj, key)) {
+        if (typeof userObj[key] === "object" && userObj[key] !== null) {
+          if (userObj[key].size === 0 && userObj[key].length === 0) {
+            console.log(user[key], userObj[key]);
+            userObj[key] = "null";
+          }
+        }
+
+        if (
+          userObj[key] !== undefined &&
+          userObj[key].toString() !== "undefined"
+        ) {
+          userDocument[key] = userObj[key];
+          user[key] = userObj[key];
+        }
+      }
+    }
+
+    await userDocument.save();
+
+    await user.save();
+
+    revalidatePath("/profile");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // export async function HandleFormSubmit(price: any) {
 //   try {
 //     console.log("handle form", price);
@@ -127,8 +171,6 @@ export async function ContactEmail(
 //     });
 
 //     await basictranasction.wait();
-
-    
 
 //   } catch (error) {
 //     console.log(error);
