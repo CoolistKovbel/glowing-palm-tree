@@ -24,6 +24,8 @@ const Page = async () => {
     },
   ];
 
+  console.log(user)
+
   return (
     <main className="min-h-screen flex-col items-center gap-4 p-5">
       <header className="p-10 bg-[#222] flex items-center justify-between">
@@ -49,43 +51,21 @@ const Page = async () => {
 
         <div className="bg-[#333] p-4 flex flex-col gap-3">
           <p className="bg-[#111] p-2">
-            username: <span>{serverUser?.username}</span>
+            username: <span>{user.username}</span>
           </p>
           <p className="bg-[#111] p-2">
-            email: <span>{serverUser?.email}</span>
+            email: <span>{user.email}</span>
           </p>
           <p className="bg-[#111] p-2">
-            metaAddress: <span>{serverUser?.metaAddress}</span>
+            metaAddress: <span>{user.metaAccount}</span>
           </p>
         </div>
 
-        <div className="p-4">
+        {/* <div className="p-4">
           <h2 className="text-2xl font-bold">Transaction History:</h2>
 
-          <div className="flex flex-col gap-4">
-            {transactionHistory.map((item) => (
-              <div
-                key={crypto.randomUUID()}
-                className="bg-[#222] p-4 rounded-lg  "
-              >
-                <div className="">
-                  <h2 className="text-2xl">{item.title}</h2>
-                  <h2 className="text-sm">{item.description}</h2>
-                </div>
 
-                <span
-                  className={
-                    item.accepted
-                      ? "bg-green-500 p-2 inline-block"
-                      : "bg-red-500 p-2 inline-block"
-                  }
-                >
-                  accepted: {item.accepted ? "accepted" : "no accepted"}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+        </div> */}
       </section>
     </main>
   );

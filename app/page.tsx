@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getSession } from "./lib/action";
 
-export default async  function Home () {
-
+export default async function Home() {
   const data = [
     {
       title: "hand picked and curriiated",
@@ -27,11 +26,10 @@ export default async  function Home () {
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 p-5">
-
       <div className="w-full flex items-center gap-4 flex-col justify-around md:flex-row ">
 
-        <div className="flex flex-col gap-2 justify-between  md:items-start bg-[#222] md:w-[50%] p-4 rounded-lg h-[300px]">
-          
+
+        <div className="flex flex-col gap-2 justify-between  md:items-start bg-[#222] md:w-[50%] p-4 rounded-lg h-[300px]" >
           <header className="p-1">
             <h2 className="text-2xl font-bold mb-2 ">
               Get yourself your very own first aid kit
@@ -42,7 +40,7 @@ export default async  function Home () {
           </header>
 
           <Link
-            href="/cart"
+            href="/shop"
             className="bg-[#111] p-2 rounded-lg font-bold text-center "
           >
             View more
@@ -57,6 +55,7 @@ export default async  function Home () {
             className="rounded-full drop-shadow-lg"
           />
         </div>
+
       </div>
 
       <section className="flex flex-col gap-4" id="features">
@@ -69,7 +68,6 @@ export default async  function Home () {
         </header>
 
         <div className="flex items-center justify-between w-full md:w-[80%] h-[700px] mx-auto flex-col md:flex-row ">
-
           <div className="flex flex-col gap-4 text-center items-start w-fit bg-[#222] p-4">
             <h2 className="text-2xl text-center font-bold">First Aid kit</h2>
 
@@ -98,7 +96,6 @@ export default async  function Home () {
                 </Link>
               </div>
             </div>
-
           </div>
 
           <div className="flex items-start justify-center flex-col gap-4 p-10">
@@ -110,9 +107,7 @@ export default async  function Home () {
               to band-aid and asprine and more.
             </p>
           </div>
-
         </div>
-
       </section>
 
       <div className="bg-[#333] p-4">
