@@ -9,7 +9,7 @@ const page = async () => {
 
   const gg = await Checkout.find({
     author: user.userId,
-  })
+  }) 
 
   return (
     <main className="w-full min-h-screen p-10">
