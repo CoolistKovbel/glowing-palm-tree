@@ -5,11 +5,11 @@ import Link from "next/link";
 import React from "react";
 
 const Page = async () => {
-  const user = await getSession();
+  const user:any = await getSession();
 
   const isDev = user.role === "DEV";
 
-  const serverUser = await getCurrenbyUserId(user.userId as string);
+  const serverUser:any = await getCurrenbyUserId(user.userId as string);
 
   const transactionHistory = [
     {

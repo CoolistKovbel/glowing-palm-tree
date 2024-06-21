@@ -10,8 +10,6 @@ const Page = async () => {
 
   const user2 = JSON.stringify(user)
 
-  console.log(user2)
-
   return (
     <main className="min-h-screen bg-[#111] p-10">
 
@@ -45,7 +43,7 @@ const Page = async () => {
         </p>
         <ul className="p-3">
           <li>4x bandages</li>
-          <li>2x bandaids</li>
+          <li>2x ice packs</li>
           <li>1x hydrogen poraxide</li>
         </ul>
 
