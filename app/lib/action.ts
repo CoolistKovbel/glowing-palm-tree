@@ -9,8 +9,6 @@ import { User } from "../models/User";
 import { redirect } from "next/navigation";
 import { compare, hash } from "bcryptjs";
 import { sendMail } from "./mail";
-import { Job } from "../models/jobs";
-import { Checkout } from "../models/checkout";
 import { revalidatePath } from "next/cache";
 
 const sendMessage = `Hi, welcome to hell`;
@@ -27,60 +25,112 @@ export const getSession = async () => {
 };
 
 // Form actions
-export const login = async (
-  prevState: undefined | string,
+export const Registrar = async (
+  state: string | undefined,
   formData: FormData
 ) => {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const sign = formData.get("sig") as string;
-
   try {
-    await dbConnect();
+    const { username, signature, address } = Object.fromEntries(formData);
     const session = await getSession();
 
-    // Check user in db
-    const existingUser = await User.findOne({ email });
+    await dbConnect();
 
-    const existingBySD = await User.findOne({ sig: sign });
+    const UsrExist: any = await User.findOne({ address });
 
-    if (existingBySD) {
-      // b -
-      const verify = ethers.utils.verifyMessage(sendMessage, sign);
+    if (UsrExist) {
+      if (UsrExist.signature === signature) {
+        session.userId = UsrExist._id.toString();
+        session.username = UsrExist.username;
+        session.image = UsrExist.image;
+        session.email = UsrExist.email;
 
-      console.log(verify, "in the server actions");
+        session.role = UsrExist.role;
+        session.isLoggedIn = true;
+        session.account = UsrExist.account;
+
+        await session.save();
+
+        return "noice";
+      }
     }
 
-    if (!existingUser) {
-      return "wrong credentialas";
-    }
+    const newUser: any = new User({
+      username: username as string,
+      signature: signature as string,
+      address: address as string,
+      homeAddress: null,
+      city: null,
+      state: null,
+      zip: null,
+      email: null,
+      phone: null,
+      profileImage: null,
+    });
 
-    // Check is password matches
-    const passValid = await compare(password, existingUser?.password as string);
+    await newUser.save();
 
-    if (!passValid) {
-      return "wrong credentialas";
-    }
+    session.userId = newUser._id.toString();
+    session.username = newUser.username;
+    session.image = newUser.image;
+    session.email = newUser.email;
 
-    // Creating session
-    session.userId = existingUser._id.toString();
-    session.username = existingUser.username;
-    session.image = existingUser.image;
-    session.email = existingUser.email;
-    session.isPro = existingUser.isPro;
-    session.role = existingUser.role;
+    session.role = newUser.role;
     session.isLoggedIn = true;
-    session.metaAccount = existingUser.metaAddress;
+    session.account = newUser.account;
 
     await session.save();
 
     return "noice";
   } catch (error) {
     console.log(error);
-    return "error: cant login";
+
+    return "notnoice";
   }
 };
 
+export const updateUserAccount = async (formData: FormData) => {
+  const userObj: any = Object.fromEntries(formData);
+  const user: any = await getSession();
+
+  try {
+    console.log("handleujpdate");
+
+    await dbConnect();
+
+    const userExist: any = await User.findById(user.userId);
+
+    if (!userExist) return "are you valid?";
+
+    const userDocument = userExist;
+
+    for (let key in userDocument.toObject()) {
+      if (Object.hasOwn(userObj, key)) {
+        if (typeof userObj[key] === "object" && userObj[key] !== null) {
+          if (userObj[key].size === 0 && userObj[key].length === 0) {
+            console.log(user[key], userObj[key], "dee ehstkegsevssdv");
+            userObj[key] = "null";
+          }
+        }
+
+        if (
+          userObj[key] !== undefined &&
+          userObj[key].toString() !== "undefined"
+        ) {
+          userDocument[key] = userObj[key];
+          user[key] = userObj[key];
+        }
+      }
+    }
+
+    await userDocument.save();
+
+    await user.save();
+
+    revalidatePath("/profile/update");
+  } catch (error) {
+    console.log(error);
+  }
+};
 // handle  user logout
 export const logout = async () => {
   const session = await getSession();
@@ -112,71 +162,6 @@ export async function ContactEmail(
   }
 }
 
-export const updateUserAccount = async (formData: FormData) => {
-  const userObj: any = Object.fromEntries(formData);
-  const user: any = await getSession();
-
-  try {
-    console.log("handleujpdate");
-
-    await dbConnect();
-
-    const userExist: any = await User.findById(user.userId);
-
-    if (!userExist) return "are you valid?";
-
-    const userDocument = userExist;
-
-    for (let key in userDocument.toObject()) {
-      if (Object.hasOwn(userObj, key)) {
-        if (typeof userObj[key] === "object" && userObj[key] !== null) {
-          if (userObj[key].size === 0 && userObj[key].length === 0) {
-            console.log(user[key], userObj[key]);
-            userObj[key] = "null";
-          }
-        }
-
-        if (
-          userObj[key] !== undefined &&
-          userObj[key].toString() !== "undefined"
-        ) {
-          userDocument[key] = userObj[key];
-          user[key] = userObj[key];
-        }
-      }
-    }
-
-    await userDocument.save();
-
-    await user.save();
-
-    revalidatePath("/profile");
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// export async function HandleFormSubmit(price: any) {
-//   try {
-//     console.log("handle form", price);
-
-//     const gg = new ethers.providers.Web3Provider(window.ethereum);
-
-//     const signer = await gg.getSigner();
-
-//     const basictranasction = await signer.sendTransaction({
-//       value: ethers.utils.formatUnits(price, "wei"),
-//       gasLimit: 900000,
-//       to: "0x1C352E8F3e035c524F2385818b44859906d3c705",
-//     });
-
-//     await basictranasction.wait();
-
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 // Chwckout set up
 export async function AddToCheckOut(formData: FormData) {
   const { amount, pouch } = Object.fromEntries(formData);
@@ -204,93 +189,23 @@ export async function AddToCheckOut(formData: FormData) {
   }
 }
 
-// Create a job request
-export async function MakeARequest(formData: FormData) {
-  const { email, description, minpay, title } = Object.fromEntries(formData);
-
-  const user = await getSession();
-
-  try {
-    console.log("making a request");
-
-    await dbConnect();
-
-    const yon = new Job({
-      title: title as string,
-      description: description as string,
-      author: user.userId,
-      reward: minpay,
-    });
-
-    await yon.save();
-
-    return "success";
-  } catch (error) {
-    console.log(error);
-    return "fail";
-  }
-}
-
-// grab all market request
-export async function SingleJobRequest(jobID: string) {
-  try {
-    console.log("grabbing single job");
-
-    await dbConnect();
-
-    const singleJob = await Job.find({ _id: jobID }).lean();
-
-    console.log(singleJob);
-
-    return singleJob;
-  } catch (error) {
-    console.log("error");
-  }
-}
-
 // handle user register
-export const Registrar = async (
-  state: string | undefined,
-  formData: FormData
-) => {
-  try {
-    const { username, email, password, metaAddress, sig } =
-      Object.fromEntries(formData);
-
-    await dbConnect();
-
-    const UsrExist = await User.findOne({ username });
-
-    if (UsrExist) {
-      return "there is a user";
-    }
-
-    const P$P = await hash(password as string, 10);
-
-    const newUser = new User({
-      username,
-      password: P$P,
-      email,
-      metaAddress: metaAddress as string | undefined,
-      sig,
-    });
-
-    await newUser.save();
-
-    return "noice";
-  } catch (error) {
-    console.log(error);
-
-    return "notnoice";
-  }
-};
 
 // Handle user new job request
-export const handleNewJobRequest = async (userInput: FormData) => {
+export const handleShippingInfo = async (userInput: FormData) => {
   try {
     console.log("handling new jobn");
 
+
     await dbConnect();
+
+
+
+
+
+
+
+
   } catch (error) {
     console.log(error);
   }

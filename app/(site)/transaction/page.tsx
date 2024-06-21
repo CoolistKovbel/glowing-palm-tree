@@ -1,6 +1,15 @@
-import React from "react";
+import { getSession } from "@/app/lib/action";
+import { getCurrentUserTransactionById } from "@/app/lib/getUserLib";
 
-const Page = () => {
+
+const Page = async () => {
+
+  const gg = await getSession()
+
+  const trnasa = await getCurrentUserTransactionById(gg)
+
+  console.log(trnasa)
+  
   const transactionstable = [
     {
       transactionUserA: "user one",

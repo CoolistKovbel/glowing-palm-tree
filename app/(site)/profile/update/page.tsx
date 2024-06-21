@@ -1,4 +1,5 @@
 import ContactUpdateForm from '@/app/componets/contact-update-form'
+import ShippingUpdateForm from '@/app/componets/shipping-update-copy'
 import React from 'react'
 
 const page = () => {
@@ -14,6 +15,15 @@ const page = () => {
 
         <ContactUpdateForm />
 
+
+        <div className='p-5  bg-[#444]'>
+          <h2 className='font-bold  text-2xl mb-4'>Update shipping information</h2>
+
+
+          <ShippingUpdateForm />
+
+
+        </div>
 
 
     </main>

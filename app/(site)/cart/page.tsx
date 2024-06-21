@@ -1,14 +1,15 @@
 import TransactionComp from "@/app/componets/cart/ transaction-comp";
 import { PaymentOption } from "@/app/componets/paymentOption";
 import { getSession } from "@/app/lib/action";
-import { Checkout } from "@/app/models/checkout";
+import { Checkout } from "@/app/models/Checkout";
+
 
 const page = async () => {
   const user = await getSession();
 
   const gg = await Checkout.find({
     author: user.userId,
-  }).lean();
+  })
 
   return (
     <main className="w-full min-h-screen p-10">

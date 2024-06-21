@@ -4,11 +4,11 @@ export interface SessionData {
   userId?: string;
   username?: string;
   image?: string;
-  isPro?: boolean;
   isLoggedIn?: boolean;
-  metaAccount?: string;
+  account?: string;
   role?: string;
   email?: string;
+  address?: string;
 }
 
 export const defaultSession: SessionData = {

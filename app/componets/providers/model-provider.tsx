@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import UploadImage from "../modals/uploadImage";
+import SignInModal from "../modals/signInModal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsmounted] = useState(false);
@@ -17,6 +18,7 @@ export const ModalProvider = () => {
   return (
     <>
       <UploadImage />
+      <SignInModal />
     </>
   );
 };

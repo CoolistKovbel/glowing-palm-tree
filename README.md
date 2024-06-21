@@ -1,4 +1,4 @@
-# EndourHealth Support
+# Edehealthaid Support
 
 This is going to be a service and website where you will be able to call for your health needs.
 

@@ -4,7 +4,10 @@ import MainHeader from "./componets/mainheader";
 import "./globals.css";
 import MainFooter from "./componets/mainfooter";
 import { getSession } from "./lib/action";
+import { ModalProvider } from "./componets/providers/model-provider";
 
+import { ToastContainer} from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: "Edehealthaid",
@@ -26,6 +29,8 @@ export default async function RootLayout({
         <MainHeader userSession={JSON.stringify(user)} />
         {children}
         <MainFooter />
+        <ModalProvider />
+        <ToastContainer />
       </body>
     </html>
   );

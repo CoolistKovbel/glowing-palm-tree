@@ -3,14 +3,18 @@ import mongoose from "mongoose";
 export interface IUser {
   username: string;
   email: string;
-  password: string;
-  preference: string;
   image: string;
   role: string;
   isPro: boolean;
   metaAddress: string;
   sig: string;
   earned: number | string;
+  address: any;
+  Address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
 }
 
 // TODO: Make it better......
@@ -21,21 +25,24 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       min: 4,
       max: 24,
-      require: true,
-      unique: true,
     },
     email: {
       type: String,
-      require: true,
-      unique: true,
     },
-    password: {
+    Address: {
       type: String,
-      require: true,
     },
-    preference: {
+    city: {
       type: String,
-      require: true,
+    },
+    state: {
+      type: String,
+    },
+    zip: {
+      type: String,
+    },
+    phone: {
+      type: String,
     },
     image: {
       type: String,
@@ -47,9 +54,8 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String || null,
       unique: true,
     },
-    earned: {
-      type: String || Number,
-      default: 0
+    address: {
+      type: String,
     },
     role: {
       type: String,

@@ -6,17 +6,15 @@ import LogoutButton from "./logoutbutton";
 import { useModal } from "../hooks/use-modal-store";
 import { ethers } from "ethers";
 
-
 interface MainHeaderProps {
   userSession: any;
 }
 
-const MainHeader = ({userSession}:MainHeaderProps) => {
-
+const MainHeader = ({ userSession }: MainHeaderProps) => {
   const [handleUserToggle, sethandleUserToggle] = useState(false);
   const { onOpen } = useModal();
 
-  const isLogged = userSession && JSON.parse(userSession).isLoggedIn
+  const isLogged = userSession && JSON.parse(userSession).isLoggedIn;
 
   const handleSignIn = async () => {
     try {
@@ -31,17 +29,15 @@ const MainHeader = ({userSession}:MainHeaderProps) => {
       const sign = await signer.signMessage(sendMessage);
 
       onOpen("signIn", JSON.stringify({ sign: sign, sAd: sAd }));
-      
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   return (
     <header className="bg-[#222] p-4 text-white flex items-center justify-around w-full">
-
       <h2 className="text-2xl">
-        <Link href="/">Ezueaid</Link>
+        <Link href="/">Edehealthaid</Link>
       </h2>
 
       {isLogged ? (

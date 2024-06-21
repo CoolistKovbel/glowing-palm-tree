@@ -1,7 +1,7 @@
 
 import { create } from "zustand";
 
-export type ModalType =  "CreaateTokenVaultTransfer" | "signIn"
+export type ModalType =   "signIn" | "updateAccount"
 
 interface ModalData {
   server?: any;
