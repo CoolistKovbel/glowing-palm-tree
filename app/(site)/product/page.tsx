@@ -1,9 +1,16 @@
 
 import PurchaseForm from "@/app/componets/purchaseform";
+import { getSession } from "@/app/lib/action";
 
 import Image from "next/image";
 
-const Page = () => {
+const Page = async () => {
+
+  const  user = await getSession()
+
+  const user2 = JSON.stringify(user)
+
+  console.log(user2)
 
   return (
     <main className="min-h-screen bg-[#111] p-10">
@@ -42,7 +49,7 @@ const Page = () => {
           <li>1x hydrogen poraxide</li>
         </ul>
 
-        <PurchaseForm />
+        <PurchaseForm user={user2} />
       </footer>
 
     </main>
