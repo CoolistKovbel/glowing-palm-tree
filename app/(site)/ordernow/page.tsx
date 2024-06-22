@@ -7,7 +7,7 @@ const Page = async () => {
 
   const isLogged = await getSession()
 
-
+ 
   return (
     <main className="text-2xl">
 

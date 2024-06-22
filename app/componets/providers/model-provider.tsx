@@ -16,7 +16,6 @@ export const ModalProvider = () => {
 
   return (
     <>
-   
       <SignInModal />
     </>
   );

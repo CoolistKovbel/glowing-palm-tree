@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { AddToCheckOut } from "../lib/action";
 import Link from "next/link";
+import { useModal } from "./hooks/use-modal-store";
 
 interface OrderNowFormProps {
   isLogged: any;
@@ -10,6 +11,7 @@ interface OrderNowFormProps {
 
 const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
   const router = useRouter();
+  const {onOpen } = useModal()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -29,6 +31,19 @@ const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
       console.log("error");
     }
   };
+
+
+  const handleLogin = async () => {
+    try {
+      console.log("handling login")
+
+      onOpen("signIn")
+    
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <section className="w-full min-h-screen">
@@ -80,12 +95,13 @@ const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
           </div>
         ) : (
           <div>
-            <Link
-              href="/login"
+            <button
+              onClick={handleLogin}
               className="text-xl font-bold bg-[#222] p-2 hover:bg-[#333]"
+              type="button"
             >
               login
-            </Link>
+            </button>
           </div>
         )}
       </form>
