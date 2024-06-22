@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import UploadImage from "../modals/uploadImage";
 import SignInModal from "../modals/signInModal";
 
 export const ModalProvider = () => {
@@ -17,7 +16,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <UploadImage />
+   
       <SignInModal />
     </>
   );
