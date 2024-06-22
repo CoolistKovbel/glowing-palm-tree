@@ -10,7 +10,7 @@ const ProfileNav = () => {
   const handleClick = () => {
     try {
       console.log("handle clck");
-      setNavTog((prev) => !prev);
+      setNavTog((prev:any) => !prev);
     } catch (error) {
       console.log("error");
     }
