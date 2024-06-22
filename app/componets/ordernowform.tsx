@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { AddToCheckOut } from "../lib/action";
-import Link from "next/link";
-import { useModal } from "./hooks/use-modal-store";
+import { useModal } from "../hooks/use-modal-store";
+
 
 interface OrderNowFormProps {
   isLogged: any;
@@ -37,7 +37,7 @@ const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
     try {
       console.log("handling login")
 
-      onOpen("signIn")
+      onOpen("signUserIn")
     
 
     } catch (error) {
