@@ -28,7 +28,7 @@ const MainHeader = ({ userSession }: MainHeaderProps) => {
       const sendMessage = `Hi, welcome ${sAd}`;
       const sign = await signer.signMessage(sendMessage);
 
-      onOpen("signIn", JSON.stringify({ sign: sign, sAd: sAd }));
+      onOpen("signUserIn", JSON.stringify({ sign: sign, sAd: sAd }));
     } catch (error) {
       console.log(error);
     }
