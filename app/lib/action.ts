@@ -33,6 +33,7 @@ export const Registrar = async (
 ) => {
   try {
     const { username, signature, address } = Object.fromEntries(formData);
+
     const session = await getSession();
 
     await dbConnect();
@@ -40,7 +41,9 @@ export const Registrar = async (
     const UsrExist: any = await User.findOne({ address });
 
     if (UsrExist) {
+
       if (UsrExist.signature === signature) {
+
         session.userId = UsrExist._id.toString();
         session.username = UsrExist.username;
         session.image = UsrExist.image;
@@ -54,6 +57,7 @@ export const Registrar = async (
 
         return "noice";
       }
+      
     }
 
     const newUser: any = new User({
