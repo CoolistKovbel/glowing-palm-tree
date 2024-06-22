@@ -4,10 +4,10 @@ import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { SessionData, defaultSession, sessionOptions } from "./dictionary";
 import dbConnect from "./db";
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 import { User } from "../models/User";
 import { redirect } from "next/navigation";
-import { compare, hash } from "bcryptjs";
+// import { compare, hash } from "bcryptjs";
 import { sendMail } from "./mail";
 import { revalidatePath } from "next/cache";
 import { Transaction } from "../models/Transaction";
@@ -204,31 +204,32 @@ export async function ContactEmail(
 }
 
 // Chwckout set up
-// export async function AddToCheckOut(formData: FormData) {
-//   const { amount, pouch } = Object.fromEntries(formData);
-//   const user = await getSession();
 
-//   try {
-//     console.log("working on checking out");
-//     await dbConnect();
+export async function AddToCheckOut(formData: FormData) {
+  const { amount, pouch } = Object.fromEntries(formData);
+  const user = await getSession();
 
-//     const gg = new Checkout({
-//       author: user.userId,
-//       amount: amount as string,
-//       product: pouch as string,
-//       pending: true,
-//     });
+  try {
+    console.log("working on checking out");
+    await dbConnect();
 
-//     await gg.save();
+    const gg = new Checkout({
+      author: user.userId,
+      amount: amount as string,
+      product: pouch as string,
+      pending: true,
+    });
 
-//     revalidatePath("/");
+    await gg.save();
 
-//     return "Success";
-//   } catch (error) {
-//     console.log("error", error);
-//     return "failed";
-//   }
-// }
+    revalidatePath("/");
+
+    return "Success";
+  } catch (error) {
+    console.log("error", error);
+    return "failed";
+  }
+}
 
 // Handle user new job request
 export const handleShippingInfo = async (userInput: FormData) => {

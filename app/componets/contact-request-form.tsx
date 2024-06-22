@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { MakeARequest } from "../lib/action";
+
 
 const ContactRequestForm = () => {
   const handleRequest = async (e: any) => {
@@ -12,9 +12,9 @@ const ContactRequestForm = () => {
 
       const formData = new FormData(e.currentTarget);
 
-      const gg = await MakeARequest(formData);
+      // const gg = await MakeARequest(formData);
 
-      console.log(gg);
+      // console.log(gg);
 
       // Reest form after
     } catch (error) {
