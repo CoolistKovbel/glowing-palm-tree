@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import LogoutButton from "./logoutbutton";
 import { useModal } from "../hooks/use-modal-store";
 import { ethers } from "ethers";
+import { toast } from "react-toastify";
 
 interface MainHeaderProps {
   userSession: any;
@@ -20,7 +21,9 @@ const MainHeader = ({ userSession }: MainHeaderProps) => {
     try {
       console.log("handle sign in ");
 
-      const gg = new ethers.providers.Web3Provider(window.ethereum);
+      if(window?.ethereum === null || window?.ethereum === undefined) return toast(".... my server no worky contact please")
+
+      const gg = new ethers.providers.Web3Provider(window?.ethereum);
 
       const signer = await gg.getSigner();
       const sAd = await signer.getAddress();
@@ -28,7 +31,11 @@ const MainHeader = ({ userSession }: MainHeaderProps) => {
       const sendMessage = `Hi, welcome ${sAd}`;
       const sign = await signer.signMessage(sendMessage);
 
+
+
       onOpen("signUserIn", JSON.stringify({ sign: sign, sAd: sAd }));
+
+
     } catch (error) {
       console.log(error);
     }
