@@ -12,8 +12,12 @@ const ShippingUpdateForm = () => {
       const gg = await updateUserAccount(formData);
 
 
+      console.log(gg)
 
-      console.log(gg);
+
+
+      e.target.reset()
+
     } catch (error) {
       console.log(error);
     }
@@ -22,14 +26,14 @@ const ShippingUpdateForm = () => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-[#222]">
       <label
-        htmlFor="homeAddress"
+        htmlFor="Address"
         className="bg-[#111] p-3 flex items-center justify-between"
       >
         <span>Address: </span>
         <input
           type="text"
-          id="homeAddress"
-          name="homeAddress"
+          id="Address"
+          name="Address"
           placeholder="enter address"
           className="p-2 bg-[#333] text-white"
         />

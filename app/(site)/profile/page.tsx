@@ -11,20 +11,7 @@ const Page = async () => {
 
   const serverUser:any = await getCurrenbyUserId(user.userId as string);
 
-  const transactionHistory = [
-    {
-      title: "",
-      description: "",
-      accepted: false,
-    },
-    {
-      title: "lifestyle blog",
-      description: "NEed to create a webisite where it is a blog.",
-      accepted: false,
-    },
-  ];
-
-  console.log(user)
+  
 
   return (
     <main className="min-h-screen flex-col items-center gap-4 p-5">
@@ -42,7 +29,7 @@ const Page = async () => {
             <Image src="https://picsum.photos/200" alt="eh" fill />
           </div>
           <div className="flex flex-col">
-            <h2 className="text-2xl">Role: {serverUser?.role}</h2>
+            <h2 className="text-2xl">Role: {user?.role}</h2>
             <h2 className="text-2xl">
               Status: {serverUser?.isPro ? "cool" : "sad"}
             </h2>
@@ -59,13 +46,8 @@ const Page = async () => {
           <p className="bg-[#111] p-2">
             metaAddress: <span>{user.metaAccount}</span>
           </p>
+          
         </div>
-
-        {/* <div className="p-4">
-          <h2 className="text-2xl font-bold">Transaction History:</h2>
-
-
-        </div> */}
       </section>
     </main>
   );

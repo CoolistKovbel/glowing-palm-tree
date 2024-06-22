@@ -58,7 +58,7 @@ export const Registrar = async (
       username: username as string,
       signature: signature as string,
       address: address as string,
-      homeAddress: null,
+      Address: null,
       city: null,
       state: null,
       zip: null,
@@ -105,19 +105,27 @@ export const updateUserAccount = async (formData: FormData) => {
 
     for (let key in userDocument.toObject()) {
       if (Object.hasOwn(userObj, key)) {
-        if (typeof userObj[key] === "object" && userObj[key] !== null) {
-          if (userObj[key].size === 0 && userObj[key].length === 0) {
-            console.log(user[key], userObj[key], "dee ehstkegsevssdv");
-            userObj[key] = "null";
-          }
-        }
 
-        if (
-          userObj[key] !== undefined &&
-          userObj[key].toString() !== "undefined"
-        ) {
+
+        console.log(userObj[key])
+
+
+
+
+        if (typeof userObj[key] === "object" || userObj[key] !== null ) {
+          // console.log(userObj[key] , " whtye")
+
           userDocument[key] = userObj[key];
           user[key] = userObj[key];
+
+          if (userObj[key].size === 0 && userObj[key].length === 0) {
+            // console.log(userObj[key] , " whty")
+
+            // console.log(user[key], userObj[key], "dee ehstkegsevssdv");
+
+            userObj[key] = "null";
+            userDocument[key] = "null";
+          }
         }
       }
     }
@@ -189,23 +197,12 @@ export async function AddToCheckOut(formData: FormData) {
   }
 }
 
-// handle user register
-
 // Handle user new job request
 export const handleShippingInfo = async (userInput: FormData) => {
   try {
     console.log("handling new jobn");
 
-
     await dbConnect();
-
-
-
-
-
-
-
-
   } catch (error) {
     console.log(error);
   }

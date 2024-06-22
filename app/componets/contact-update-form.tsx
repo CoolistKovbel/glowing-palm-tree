@@ -1,33 +1,33 @@
-"use client"
+"use client";
 
 import React from "react";
-import { handleUserUpdate } from "../lib/action";
+import { updateUserAccount } from "../lib/action";
 
 const ContactUpdateForm = () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
 
+    try {
+      console.log("hande submit");
 
-    const handleSubmit = async (e:any) =>  {
-        e.preventDefault()
+      const formData = new FormData(e.currentTarget);
 
-        try {
-            console.log("hande submit")
-            const formData = new FormData(e.currentTarget)
+      const gg = await updateUserAccount(formData);
 
+      console.log(gg);
 
-            const gg =  await handleUserUpdate(formData)
-
-            console.log(gg)
-            
-        } catch (error) {
-            console.log(error)
-        }
+      e.target.reset();
+    } catch (error) {
+      console.log(error);
     }
-
-
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-[#222]">
-      <label htmlFor="username" className="bg-[#111] p-3 flex items-center justify-between">
+      <label
+        htmlFor="username"
+        className="bg-[#111] p-3 flex items-center justify-between"
+      >
         <span>Username: </span>
         <input
           type="text"
@@ -38,7 +38,10 @@ const ContactUpdateForm = () => {
         />
       </label>
 
-      <label htmlFor="email" className="bg-[#111] p-3 flex items-center justify-between">
+      <label
+        htmlFor="email"
+        className="bg-[#111] p-3 flex items-center justify-between"
+      >
         <span>email: </span>
         <input
           type="email"
@@ -49,7 +52,10 @@ const ContactUpdateForm = () => {
         />
       </label>
 
-      <label htmlFor="password" className="bg-[#111] p-3 flex items-center justify-between">
+      <label
+        htmlFor="password"
+        className="bg-[#111] p-3 flex items-center justify-between"
+      >
         <span>password: </span>
         <input
           type="password"
@@ -60,7 +66,10 @@ const ContactUpdateForm = () => {
         />
       </label>
 
-      <label htmlFor="metaAddress" className="bg-[#111] p-3 flex items-center justify-between">
+      <label
+        htmlFor="metaAddress"
+        className="bg-[#111] p-3 flex items-center justify-between"
+      >
         <span>Meta Address: </span>
         <input
           type="text"
@@ -71,7 +80,24 @@ const ContactUpdateForm = () => {
         />
       </label>
 
-      <label htmlFor="imageFile" className="bg-[#111] p-3 flex items-center justify-between">
+      <label
+        htmlFor="phone"
+        className="bg-[#111] p-3 flex items-center justify-between"
+      >
+        <span>Phone: </span>
+        <input
+          type="string"
+          id="phone"
+          name="phone"
+          placeholder="enter new number"
+          className="p-2 bg-[#333] text-white"
+        />
+      </label>
+
+      <label
+        htmlFor="imageFile"
+        className="bg-[#111] p-3 flex items-center justify-between"
+      >
         <span>Image: </span>
         <input
           type="file"
@@ -81,7 +107,9 @@ const ContactUpdateForm = () => {
         />
       </label>
 
-      <button className="bg-[#111] block p-2 font-bold items-left hover:bg-[#444]">submit</button>
+      <button className="bg-[#111] block p-2 font-bold items-left hover:bg-[#444]">
+        submit
+      </button>
     </form>
   );
 };
