@@ -1,7 +1,7 @@
 "use client";
 
 import { useModal } from "@/app/hooks/use-modal-store";
-import { updateUserAccount } from "@/app/lib/action";
+import { Registrar, updateUserAccount } from "@/app/lib/action";
 
 
 import { useRouter } from "next/navigation";
@@ -32,7 +32,7 @@ const HandleLogineModal = () => {
       console.log("updaintg");
 
 
-      Registrart(formData)
+      Registrar(undefined, formData)
 
       e.currentTarget.reset()
 

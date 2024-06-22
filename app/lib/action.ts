@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import { sendMail } from "./mail";
 import { revalidatePath } from "next/cache";
 import { Transaction } from "../models/Transaction";
+import { WaitList } from "../models/WaitList";
 
 const sendMessage = `Hi, welcome to hell`;
 
@@ -88,6 +89,27 @@ export const Registrar = async (
     return "notnoice";
   }
 };
+
+
+export const joinWaitList = async (email: any) => {
+  try {
+    console.log("joinging waht list")
+
+    await dbConnect()
+
+    const userJoin = new WaitList({email})
+    
+    console.log(userJoin)
+
+    await userJoin.save()
+
+    return JSON.stringify(userJoin)
+    
+  } catch (error) {
+    console.log("error")
+  }
+}
+
 
 export const updateUserAccount = async (formData: FormData) => {
   const userObj: any = Object.fromEntries(formData);

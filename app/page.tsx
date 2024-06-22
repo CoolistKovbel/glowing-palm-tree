@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getSession } from "./lib/action";
+import UpdateSession from "./componets/updarteSession";
 
 export default async function Home() {
+
   const data = [
     {
       title: "hand picked and curriiated",
@@ -26,6 +28,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 p-5">
+
       <div className="w-full flex items-center gap-4 flex-col justify-around md:flex-row ">
 
 
@@ -168,29 +171,11 @@ export default async function Home() {
         </div>
       </div>
 
-      <div
-        className="p-2 bg-[#333] w-full h-[150px] items-center flex-col md:flex-row mx-auto flex justify-around rounded-lg mt-10"
-        id="contact"
-      >
-        <form className="flex items-center gap-4 w-[60%] justify-around">
-          <header className="flex flex-col gap-4 w-[100%] ">
-            <h2 className="text-2xl font-bold mb-2 uppercase">Get updates</h2>
-            <label htmlFor="updateEmail" className="w-full">
-              <input
-                type="email"
-                id="updateEmail"
-                placeholder="enter email"
-                name="updateEmail"
-                className="bg-[#222] p-3 bg-[#222] w-[95%] rounded-lg"
-              />
-            </label>
-          </header>
 
-          <button className="bg-[#222] p-2 hover:bg-[#111] rounded-lg w-[40%]">
-            update Email
-          </button>
-        </form>
-      </div>
+      {/* mailing list */}
+      <UpdateSession />
+
+
     </main>
   );
 }
