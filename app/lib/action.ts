@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { compare, hash } from "bcryptjs";
 import { sendMail } from "./mail";
 import { revalidatePath } from "next/cache";
+import { Transaction } from "../models/Transaction";
 
 const sendMessage = `Hi, welcome to hell`;
 
@@ -105,14 +106,9 @@ export const updateUserAccount = async (formData: FormData) => {
 
     for (let key in userDocument.toObject()) {
       if (Object.hasOwn(userObj, key)) {
+        console.log(userObj[key]);
 
-
-        console.log(userObj[key])
-
-
-
-
-        if (typeof userObj[key] === "object" || userObj[key] !== null ) {
+        if (typeof userObj[key] === "object" || userObj[key] !== null) {
           // console.log(userObj[key] , " whtye")
 
           userDocument[key] = userObj[key];
@@ -139,6 +135,43 @@ export const updateUserAccount = async (formData: FormData) => {
     console.log(error);
   }
 };
+
+export const createTranscation = async (res: any) => {
+  try {
+    console.log("creating transaction");
+
+    await dbConnect();
+
+    const transact = new Transaction(res);
+
+
+    await transact.save();
+
+
+    return transact 
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// export const updateTransaction = async (res:any) => {
+//   try {
+
+//     await dbConnect()
+
+
+//       await Transaction.findByIdAndUpdate(transact._id, {
+//         transactionHash: basictranasction.hash,
+//       });
+
+
+    
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
 // handle  user logout
 export const logout = async () => {
   const session = await getSession();
@@ -171,31 +204,31 @@ export async function ContactEmail(
 }
 
 // Chwckout set up
-export async function AddToCheckOut(formData: FormData) {
-  const { amount, pouch } = Object.fromEntries(formData);
-  const user = await getSession();
+// export async function AddToCheckOut(formData: FormData) {
+//   const { amount, pouch } = Object.fromEntries(formData);
+//   const user = await getSession();
 
-  try {
-    console.log("working on checking out");
-    await dbConnect();
+//   try {
+//     console.log("working on checking out");
+//     await dbConnect();
 
-    const gg = new Checkout({
-      author: user.userId,
-      amount: amount as string,
-      product: pouch as string,
-      pending: true,
-    });
+//     const gg = new Checkout({
+//       author: user.userId,
+//       amount: amount as string,
+//       product: pouch as string,
+//       pending: true,
+//     });
 
-    await gg.save();
+//     await gg.save();
 
-    revalidatePath("/");
+//     revalidatePath("/");
 
-    return "Success";
-  } catch (error) {
-    console.log("error", error);
-    return "failed";
-  }
-}
+//     return "Success";
+//   } catch (error) {
+//     console.log("error", error);
+//     return "failed";
+//   }
+// }
 
 // Handle user new job request
 export const handleShippingInfo = async (userInput: FormData) => {

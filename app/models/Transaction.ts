@@ -12,7 +12,7 @@ interface ITransaction extends Document {
   phone: string;
   address: string;
   email: string;
-}
+} 
 
 const TransactionSchema = new mongoose.Schema<ITransaction>(
   {

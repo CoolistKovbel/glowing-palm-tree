@@ -11,7 +11,7 @@ const page = async () => {
 
       <footer className="bg-[#444] p-4 mt-10 rounded-lg">
         <h2 className="text-2xl font-bold flex items-center justify-between w-full mb-4">
-          Need something for cuts and falls{" "}
+          Need something for cuts and falls
           <span className="block">$49.99</span>
         </h2>
         <p className="text-sm">
@@ -63,6 +63,7 @@ const page = async () => {
 
         <PurchaseForm user={JSON.stringify(user)} />
       </footer>
+
     </main>
   );
 };

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { getCurrenbyUserId } from "../lib/getUserLib";
 import { toast } from "react-toastify";
 import { Transaction } from "../models/Transaction";
+import dbConnect from "../lib/db";
+import { createTranscation } from "../lib/action";
 
 interface PurchaseFormProps {
   user: any;
@@ -29,26 +31,35 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
 
       const res = JSON.parse(cgg);
 
-      if (res.homeAddress === null || res.homeAddress === undefined) {
-        toast(`current your stupid please fill out the shipping info on your profile`);
-        return
+      if (res.Address === null || res.Address === undefined) {
+        toast(
+          `current your stupid please fill out the shipping info on your profile`
+        );
+        return;
       }
 
       const sendMessage = `You are certain you want this product...`;
       const sign = await signer.signMessage(sendMessage);
 
-      const transact = new Transaction({
+      if (sign.length > 0) console.log("signature is created");
+
+      toast(`Creating trasnaction  `);
+
+      const payload = {
         user: res._id as string,
         transactionsignature: sign,
-        homeAddress: res.homeAddress,
+        homeAddress: res.Address,
+        address: res.address,
         city: res.city,
         state: res.state,
         zip: res.zip,
         phone: res.phone,
         email: res.email,
-      });
+      };
 
-      await transact.save();
+      const transactionStart = await createTranscation(payload);
+
+      console.log(transactionStart);
 
       const basictranasction = await signer.sendTransaction({
         value: ethers.utils.parseUnits(price.toString()),
@@ -59,10 +70,6 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
       toast(`current in progress ${basictranasction.hash} `);
       await basictranasction.wait();
       toast(`completed  trasnastion ${basictranasction.hash} `);
-
-      transact.transactionHash = basictranasction.hash;
-
-      await transact.save();
 
       return "success";
     } catch (error) {

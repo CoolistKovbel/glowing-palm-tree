@@ -3,6 +3,7 @@
 import { handleShippingInfo, updateUserAccount } from "../lib/action";
 
 const ShippingUpdateForm = () => {
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -10,11 +11,6 @@ const ShippingUpdateForm = () => {
       console.log("hande submit");
       const formData = new FormData(e.currentTarget);
       const gg = await updateUserAccount(formData);
-
-
-      console.log(gg)
-
-
 
       e.target.reset()
 

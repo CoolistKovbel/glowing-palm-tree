@@ -4,6 +4,7 @@ import React from "react";
 import { updateUserAccount } from "../lib/action";
 
 const ContactUpdateForm = () => {
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -24,6 +25,7 @@ const ContactUpdateForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-[#222]">
+
       <label
         htmlFor="username"
         className="bg-[#111] p-3 flex items-center justify-between"
@@ -110,6 +112,7 @@ const ContactUpdateForm = () => {
       <button className="bg-[#111] block p-2 font-bold items-left hover:bg-[#444]">
         submit
       </button>
+      
     </form>
   );
 };
