@@ -16,7 +16,7 @@ const SignInModal = () => {
   const urlParts = window.location.href.split("/");
   const desiredUrl = "/" + urlParts.slice(3).join("/");
 
-  const isModalOpen = isOpen && type === "signIn";
+  const isModalOpen = isOpen && type === "signUserIn";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
