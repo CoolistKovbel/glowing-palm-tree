@@ -213,14 +213,14 @@ export async function AddToCheckOut(formData: FormData) {
     console.log("working on checking out");
     await dbConnect();
 
-    const gg = new Checkout({
-      author: user.userId,
-      amount: amount as string,
-      product: pouch as string,
-      pending: true,
-    });
+    // const gg = new Checkout({
+    //   author: user.userId,
+    //   amount: amount as string,
+    //   product: pouch as string,
+    //   pending: true,
+    // });
 
-    await gg.save();
+    // await gg.save();
 
     revalidatePath("/");
 
