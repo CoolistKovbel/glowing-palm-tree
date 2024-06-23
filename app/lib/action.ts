@@ -41,9 +41,7 @@ export const Registrar = async (
     const UsrExist: any = await User.findOne({ address });
 
     if (UsrExist) {
-
       if (UsrExist.signature === signature) {
-
         session.userId = UsrExist._id.toString();
         session.username = UsrExist.username;
         session.image = UsrExist.image;
@@ -57,7 +55,6 @@ export const Registrar = async (
 
         return "noice";
       }
-      
     }
 
     const newUser: any = new User({
@@ -94,26 +91,23 @@ export const Registrar = async (
   }
 };
 
-
 export const joinWaitList = async (email: any) => {
   try {
-    console.log("joinging waht list")
+    console.log("joinging waht list");
 
-    await dbConnect()
+    await dbConnect();
 
-    const userJoin = new WaitList({email})
-    
-    console.log(userJoin)
+    const userJoin = new WaitList({ email });
 
-    await userJoin.save()
+    console.log(userJoin);
 
-    return JSON.stringify(userJoin)
-    
+    await userJoin.save();
+
+    return JSON.stringify(userJoin);
   } catch (error) {
-    console.log("error")
+    console.log("error");
   }
-}
-
+};
 
 export const updateUserAccount = async (formData: FormData) => {
   const userObj: any = Object.fromEntries(formData);
@@ -170,33 +164,35 @@ export const createTranscation = async (res: any) => {
 
     const transact = new Transaction(res);
 
-
     await transact.save();
 
-
-    return transact 
-
+    return transact;
   } catch (error) {
     console.log(error);
   }
 };
 
-// export const updateTransaction = async (res:any) => {
-//   try {
+export const updateCurrentTransaction = async (
+  transactionHash: any,
+  transcactionId: any
+) => {
+  await dbConnect();
+  try {
+    const currentTranasction = await Transaction.findByIdAndUpdate(
+      transcactionId,
+      {
+        transactionHash: transactionHash,
+      }
+    );
 
-//     await dbConnect()
+    console.log(currentTranasction);
 
-
-//       await Transaction.findByIdAndUpdate(transact._id, {
-//         transactionHash: basictranasction.hash,
-//       });
-
-
-    
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+    return "success";
+  } catch (error) {
+    console.log(error);
+    console.log("error");
+  }
+};
 
 // handle  user logout
 export const logout = async () => {

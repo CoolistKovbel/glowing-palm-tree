@@ -22,13 +22,9 @@ const TransactionSchema = new mongoose.Schema<ITransaction>(
     },
     transactionsignature: {
       type: String,
-      required: true,
-      unique: true,
     },
     address: {
       type: String,
-      required: true,
-      unique: true,
     },
     transactionHash: {
       type: String,
@@ -50,7 +46,6 @@ const TransactionSchema = new mongoose.Schema<ITransaction>(
     },
     email: {
       type: String,
-      unique: true,
     },
   },
   { timestamps: true }

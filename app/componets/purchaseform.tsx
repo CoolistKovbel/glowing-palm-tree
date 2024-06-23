@@ -4,9 +4,7 @@ import { ethers } from "ethers";
 import Link from "next/link";
 import { getCurrenbyUserId } from "../lib/getUserLib";
 import { toast } from "react-toastify";
-import { Transaction } from "../models/Transaction";
-import dbConnect from "../lib/db";
-import { createTranscation } from "../lib/action";
+import { createTranscation, updateCurrentTransaction,  } from "../lib/action";
 
 interface PurchaseFormProps {
   user: any;
@@ -57,7 +55,7 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
         email: res.email,
       };
 
-      const transactionStart = await createTranscation(payload);
+      const transactionStart: any = await createTranscation(payload);
 
       console.log(transactionStart);
 
@@ -70,6 +68,13 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
       toast(`current in progress ${basictranasction.hash} `);
       await basictranasction.wait();
       toast(`completed  trasnastion ${basictranasction.hash} `);
+
+      const updateTransaction = await updateCurrentTransaction(
+        basictranasction.hash,
+        transactionStart._id
+      );
+
+      console.log("updated", updateTransaction);
 
       return "success";
     } catch (error) {
