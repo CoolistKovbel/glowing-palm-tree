@@ -1,15 +1,13 @@
 import { getSession } from "@/app/lib/action";
 import { getCurrentUserTransactionById } from "@/app/lib/getUserLib";
 
-
 const Page = async () => {
+  const gg = await getSession();
 
-  const gg = await getSession()
+  const trnasa = await getCurrentUserTransactionById(gg);
 
-  const trnasa = await getCurrentUserTransactionById(gg)
+  console.log(trnasa, "is thrre");
 
-  console.log(trnasa)
-  
   const transactionstable = [
     {
       transactionUserA: "user one",
@@ -39,6 +37,7 @@ const Page = async () => {
       <header className="mb-10">
         <h2 className="text-4xl font-bold">Transactions</h2>
       </header>
+
       <section className="w-full flex flex-col gap-4  bg-[#222] p-10">
         {transactionstable.map((item) => (
           <div

@@ -1,9 +1,12 @@
 "use client";
 
 import React from "react";
+import { MakeARequest } from "../lib/action";
 
 
 const ContactRequestForm = () => {
+
+
   const handleRequest = async (e: any) => {
     e.preventDefault();
 
@@ -12,9 +15,9 @@ const ContactRequestForm = () => {
 
       const formData = new FormData(e.currentTarget);
 
-      // const gg = await MakeARequest(formData);
+      const gg = await MakeARequest(formData);
 
-      // console.log(gg);
+      console.log(gg);
 
       // Reest form after
     } catch (error) {
@@ -27,6 +30,7 @@ const ContactRequestForm = () => {
       <h2 className="text-2xl">Thanks for choosing us we are here to help</h2>
 
       <form className="p-5 flex flex-col gap-4" onSubmit={handleRequest}>
+
         <label className="bg-[#222] p-3 flex  text-center justify-between">
           <span>Email:</span>
           <input
@@ -58,18 +62,9 @@ const ContactRequestForm = () => {
           />
         </label>
 
-        <label className="bg-[#222] p-3 flex  text-center justify-between">
-          <span className="mb-2">minum payment:</span>
-          <input
-            type="number"
-            name="minpay"
-            id="minPay"
-            placeholder="enter an amount"
-            className="p-2 bg-[#111]"
-          />
-        </label>
 
         <button className="bg-[#222] p-2 hover:bg-[#333]">submit</button>
+
       </form>
     </section>
   );

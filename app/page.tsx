@@ -28,11 +28,9 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 p-5">
-
+      
       <div className="w-full flex items-center gap-4 flex-col justify-around md:flex-row ">
-
-
-        <div className="flex flex-col gap-2 justify-between  md:items-start bg-[#222] md:w-[50%] p-4 rounded-lg h-[300px]" >
+        <div className="flex flex-col gap-2 justify-between  md:items-start bg-[#222] md:w-[50%] p-4 rounded-lg h-[300px]">
           <header className="p-1">
             <h2 className="text-2xl font-bold mb-2 ">
               Get yourself your very own first aid kit
@@ -58,7 +56,6 @@ export default async function Home() {
             className="rounded-full drop-shadow-lg"
           />
         </div>
-
       </div>
 
       <section className="flex flex-col gap-4" id="features">
@@ -84,7 +81,7 @@ export default async function Home() {
               </div>
 
               <p className="text-xl font-bold bg-[#222] p-2 w-full">
-                price: $250
+                price: $50
               </p>
 
               <div className="flex items-center gap-4 flex-col p-4">
@@ -171,10 +168,8 @@ export default async function Home() {
         </div>
       </div>
 
-
       {/* mailing list */}
       <UpdateSession />
-
 
     </main>
   );

@@ -12,6 +12,7 @@ import { sendMail } from "./mail";
 import { revalidatePath } from "next/cache";
 import { Transaction } from "../models/Transaction";
 import { WaitList } from "../models/WaitList";
+import { Checkout } from "../models/Checkout";
 
 const sendMessage = `Hi, welcome to hell`;
 
@@ -59,7 +60,7 @@ export const Registrar = async (
 
     const newUser: any = new User({
       username: username as string,
-      signature: signature as string,
+      sig: signature as string,
       address: address as string,
       Address: null,
       city: null,
@@ -124,23 +125,27 @@ export const updateUserAccount = async (formData: FormData) => {
 
     const userDocument = userExist;
 
-    for (let key in userDocument.toObject()) {
-      if (Object.hasOwn(userObj, key)) {
-        console.log(userObj[key]);
+    for (let key in userObj) {
+      // Check if userObj[key] is defined and not null or undefined
+      if (userObj.hasOwnProperty(key) && userObj[key] != null) {
+        if (key === "profileImage" && userObj[key] instanceof File) {
+          // Handle file upload for profileImage
+          const file = userObj[key];
 
-        if (typeof userObj[key] === "object" || userObj[key] !== null) {
-          // console.log(userObj[key] , " whtye")
-
-          userDocument[key] = userObj[key];
-          user[key] = userObj[key];
-
-          if (userObj[key].size === 0 && userObj[key].length === 0) {
-            // console.log(userObj[key] , " whty")
-
-            // console.log(user[key], userObj[key], "dee ehstkegsevssdv");
-
-            userObj[key] = "null";
-            userDocument[key] = "null";
+          if (file.size > 0) {
+            const fileUrl = await uploadFile(file); // Upload the file and get URL/path
+            userDocument[key] = fileUrl; // Update userDocument with file URL or path
+          }
+        } else {
+          // Only update if the key exists in userDocument
+          if (
+            userObj[key] !== undefined &&
+            userObj[key] !== "undefined" &&
+            userObj[key] !== null &&
+            userObj[key] !== ""
+          ) {
+            userDocument[key] = userObj[key];
+            user[key] = userObj[key];
           }
         }
       }
@@ -153,6 +158,14 @@ export const updateUserAccount = async (formData: FormData) => {
     revalidatePath("/profile/update");
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const uploadFile = async (file: any) => {
+  try {
+    console.log("finish thkis  uploading file beep beep");
+  } catch (error) {
+    console.log("error uploadiung files");
   }
 };
 
@@ -178,14 +191,11 @@ export const updateCurrentTransaction = async (
 ) => {
   await dbConnect();
   try {
-    const currentTranasction = await Transaction.findByIdAndUpdate(
-      transcactionId,
-      {
-        transactionHash: transactionHash,
-      }
-    );
+    console.log("updaing gerr current");
 
-    console.log(currentTranasction);
+    const currentTranasction = await Transaction.find({ _id: transcactionId });
+
+    console.log(currentTranasction, "updated user transcations completed");
 
     return "success";
   } catch (error) {
@@ -200,6 +210,17 @@ export const logout = async () => {
   session.destroy();
   redirect("/");
 };
+
+export const MakeARequest = async (formData:FormData) => {
+  try {
+    console.log("error")
+
+    return "need to finish"
+  } catch (error) {
+    console.log(error)
+    console.log("error")
+  }
+}
 
 export async function ContactEmail(
   prevState: string | object | undefined,
@@ -227,7 +248,7 @@ export async function ContactEmail(
 
 // Chwckout set up
 
-export async function AddToCheckOut(formData: FormData) {
+export async function AddToCheckOut(formData: FormData, siginature: any) {
   const { amount, pouch } = Object.fromEntries(formData);
   const user = await getSession();
 
@@ -235,14 +256,15 @@ export async function AddToCheckOut(formData: FormData) {
     console.log("working on checking out");
     await dbConnect();
 
-    // const gg = new Checkout({
-    //   author: user.userId,
-    //   amount: amount as string,
-    //   product: pouch as string,
-    //   pending: true,
-    // });
+    const gg = new Checkout({
+      author: user.userId,
+      amount: amount as string,
+      product: pouch as string,
+      signature: siginature,
+      pending: true,
+    });
 
-    // await gg.save();
+    await gg.save();
 
     revalidatePath("/");
 

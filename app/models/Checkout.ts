@@ -27,8 +27,7 @@ const CheckoutSchema = new mongoose.Schema<ICheckout>(
       default: false,
     },
     signature: {
-      type: Boolean,
-      default: false,
+      type: String, 
     },
     description: {
       type: String

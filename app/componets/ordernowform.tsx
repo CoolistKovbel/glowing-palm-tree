@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { AddToCheckOut } from "../lib/action";
 import { useModal } from "../hooks/use-modal-store";
-
+import { ethers } from "ethers";
 
 interface OrderNowFormProps {
   isLogged: any;
@@ -11,7 +11,7 @@ interface OrderNowFormProps {
 
 const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
   const router = useRouter();
-  const {onOpen } = useModal()
+  const { onOpen } = useModal();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -19,9 +19,18 @@ const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
     try {
       console.log("what is life");
 
+      const total = 49.99 * e.target.orderNow.value;
+      const valueEth = ethers.utils.parseEther((total / 3590).toString());
+
+      const web3 = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = await web3.getSigner();
+
+      const sendMessage = `Hi, you are purchasing the container correct a total of ${total}`;
+      const sign = await signer.signMessage(sendMessage);
+
       const formData = new FormData(e.currentTarget);
 
-      const gg = await AddToCheckOut(formData);
+      const gg = await AddToCheckOut(formData, sign);
 
       if (gg.startsWith("Success")) {
         console.log(gg);
@@ -32,22 +41,18 @@ const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
     }
   };
 
-
   const handleLogin = async () => {
     try {
-      console.log("handling login")
+      console.log("handling login");
 
-      onOpen("signUserIn")
-    
-
+      onOpen("signUserIn");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <section className="w-full min-h-screen">
-
       <header className="flex flex-col p-10">
         <p className="text-2xl">Your number one tool for your nessary needs</p>
         <p>Suited with the latest and greatest health benifited items.</p>
@@ -57,12 +62,10 @@ const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
         className="flex flex-col mx-auto  gap-4 w-[80%]"
         onSubmit={handleSubmit}
       >
-
         <label
           htmlFor="amount"
           className="flex items-start justify-between flex-col"
         >
-          
           <span>Amount of pouches:</span>
           <input
             type="amount"
@@ -105,7 +108,6 @@ const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
           </div>
         )}
       </form>
-      
     </section>
   );
 };

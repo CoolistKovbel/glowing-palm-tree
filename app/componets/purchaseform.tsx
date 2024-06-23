@@ -36,7 +36,7 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
         return;
       }
 
-      const sendMessage = `You are certain you want this product...`;
+      const sendMessage = `You are certain you want this product... ${Date.now()}`;
       const sign = await signer.signMessage(sendMessage);
 
       if (sign.length > 0) console.log("signature is created");
@@ -47,12 +47,12 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
         user: res._id as string,
         transactionsignature: sign,
         homeAddress: res.Address,
-        address: res.address,
         city: res.city,
         state: res.state,
         zip: res.zip,
         phone: res.phone,
         email: res.email,
+        transactionHash: null
       };
 
       const transactionStart: any = await createTranscation(payload);
@@ -61,12 +61,14 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
 
       const basictranasction = await signer.sendTransaction({
         value: ethers.utils.parseUnits(price.toString()),
-        gasLimit: 900000,
+        gasLimit: 600000,
         to: "0x1C352E8F3e035c524F2385818b44859906d3c705",
       });
-
+        
       toast(`current in progress ${basictranasction.hash} `);
+
       await basictranasction.wait();
+      
       toast(`completed  trasnastion ${basictranasction.hash} `);
 
       const updateTransaction = await updateCurrentTransaction(
@@ -77,13 +79,16 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
       console.log("updated", updateTransaction);
 
       return "success";
+
     } catch (error) {
       console.log(error);
+
     }
   };
 
   return (
     <form onSubmit={handleFormSubmit}>
+      
       <label htmlFor="amountNeed" className="flex flex-col gap-4">
         <span className="text-2xl">Amount</span>
 
@@ -103,6 +108,7 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
           <Link href="/">login</Link>
         )}
       </button>
+
     </form>
   );
 };

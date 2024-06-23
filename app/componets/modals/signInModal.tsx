@@ -22,7 +22,7 @@ const SignInModal = () => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    
+
     formData.append("sessoinUrl", desiredUrl);
     formData.append("signature", parseSig?.sign);
     formData.append("address", parseSig?.sAd);
@@ -48,17 +48,13 @@ const SignInModal = () => {
   };
 
   return (
-
     <div
       className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40 ${
         isModalOpen ? "" : "hidden"
       }`}
     >
-
       <div className="bg-[#222] rounded-md p-4 w-[300px] md:w-[600px] overflow-auto h-[50%]">
-
         <div className="w-full h-full text-white flex justify-around flex-col relative">
-          
           <h2 className="text-2xl md:text-4xl text-center font-bold">
             Sign In, {parseSig?.sAd.substring(0, 9)}
           </h2>
@@ -104,9 +100,7 @@ const SignInModal = () => {
             </svg>
           </button>
         </div>
-
       </div>
-
     </div>
   );
 };

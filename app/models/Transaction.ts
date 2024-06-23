@@ -10,7 +10,6 @@ interface ITransaction extends Document {
   state: string;
   zip: string;
   phone: string;
-  address: string;
   email: string;
 } 
 
@@ -18,12 +17,9 @@ const TransactionSchema = new mongoose.Schema<ITransaction>(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: User,
     },
     transactionsignature: {
-      type: String,
-    },
-    address: {
       type: String,
     },
     transactionHash: {
