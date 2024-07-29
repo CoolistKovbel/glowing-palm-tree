@@ -15,6 +15,7 @@ const TransactionComp = ({ transactions }: TransactionCompProps) => {
 
   return (
     <div className="flex items-center flex-col gap-4 ">
+
       {transactions.map((item:any) => {
         return (
           <section key={crypto.randomUUID()} className="bg-[#222] p-2 w-full">
@@ -36,6 +37,7 @@ const TransactionComp = ({ transactions }: TransactionCompProps) => {
           </section>
         );
       })}
+      
     </div>
   );
 };

@@ -8,8 +8,9 @@ const Page = async () => {
 
   return (
     <main className="text-2xl">
+
       <header className="flex items-center justify-around p-10 flex-col md:flex-row gap-4">
-        <h1 className="text-2xl md:text-4xl font-bold">EzueHealth Pouch</h1>
+        <h1 className="text-2xl md:text-4xl font-bold">EzuHealth Pouch</h1>
 
         <div className="w-[300px] h-[300px] relative">
           <Image src="/aidpack2.jpg" alt="pouch" fill className="rounded-lg" />

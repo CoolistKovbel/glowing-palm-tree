@@ -5,38 +5,45 @@ export interface ICheckout {
   content?: string;
   createdAt?: string;
   updatedAt?: string;
-  author?: any;
+  customer?: any;
   amount?: any;
   product?: any;
   pending?: any;
   signature?: any;
   description?: any;
+  metaAddress?: any;
+  transacationHash?: any;
 }
 
 const CheckoutSchema = new mongoose.Schema<ICheckout>(
   {
-    author: {
+    customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: User, // Replace 'User' with the actual name of your User model
     },
     amount: {
       type: Number,
     },
+    metaAddress: {
+      type: String,
+    },
+    transacationHash: {
+      type: String,
+    },
     pending: {
       type: Boolean,
       default: false,
     },
     signature: {
-      type: String, 
+      type: String,
     },
     description: {
-      type: String
+      type: String,
     },
     product: {
       type: String,
       default: "BASIC",
     },
-    
   },
   { timestamps: true }
 );

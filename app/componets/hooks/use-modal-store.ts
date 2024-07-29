@@ -1,7 +1,7 @@
 
 import { create } from "zustand";
 
-export type ModalType =  "updateAccount" 
+export type ModalType =  "updateAccount" | "signUserIn"
 
 interface ModalData {
   server?: any;

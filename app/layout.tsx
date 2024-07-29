@@ -10,9 +10,9 @@ import { ToastContainer} from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
-  title: "Edehealthaid",
+  title: "Ezpeaid",
   description:
-    "Welcome to Edehealthaid. Your #1 spot away from your monthly subscription for our special care  health aid box",
+    "Welcome to Ezpeaid. Your #1 spot away from your monthly subscription for our special care  health aid box",
 };
 
 export default async function RootLayout({

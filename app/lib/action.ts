@@ -42,11 +42,12 @@ export const Registrar = async (
     const UsrExist: any = await User.findOne({ address });
 
     if (UsrExist) {
-      if (UsrExist.signature === signature) {
+      if (UsrExist.sig === signature) {
         session.userId = UsrExist._id.toString();
         session.username = UsrExist.username;
         session.image = UsrExist.image;
         session.email = UsrExist.email;
+        session.account = UsrExist.account;
 
         session.role = UsrExist.role;
         session.isLoggedIn = true;
@@ -56,33 +57,33 @@ export const Registrar = async (
 
         return "noice";
       }
+    } else {
+      const newUser: any = new User({
+        username: username as string,
+        sig: signature as string,
+        address: address as string,
+        Address: null,
+        city: null,
+        state: null,
+        zip: null,
+        email: null,
+        phone: null,
+        profileImage: null,
+      });
+
+      await newUser.save();
+
+      session.userId = newUser._id.toString();
+      session.username = newUser.username;
+      session.image = newUser.image;
+      session.email = newUser.email;
+
+      session.role = newUser.role;
+      session.isLoggedIn = true;
+      session.account = newUser.account;
+
+      await session.save();
     }
-
-    const newUser: any = new User({
-      username: username as string,
-      sig: signature as string,
-      address: address as string,
-      Address: null,
-      city: null,
-      state: null,
-      zip: null,
-      email: null,
-      phone: null,
-      profileImage: null,
-    });
-
-    await newUser.save();
-
-    session.userId = newUser._id.toString();
-    session.username = newUser.username;
-    session.image = newUser.image;
-    session.email = newUser.email;
-
-    session.role = newUser.role;
-    session.isLoggedIn = true;
-    session.account = newUser.account;
-
-    await session.save();
 
     return "noice";
   } catch (error) {
@@ -211,16 +212,16 @@ export const logout = async () => {
   redirect("/");
 };
 
-export const MakeARequest = async (formData:FormData) => {
+export const MakeARequest = async (formData: FormData) => {
   try {
-    console.log("error")
+    console.log("error");
 
-    return "need to finish"
+    return "need to finish";
   } catch (error) {
-    console.log(error)
-    console.log("error")
+    console.log(error);
+    console.log("error");
   }
-}
+};
 
 export async function ContactEmail(
   prevState: string | object | undefined,
@@ -249,16 +250,19 @@ export async function ContactEmail(
 // Chwckout set up
 
 export async function AddToCheckOut(formData: FormData, siginature: any) {
-  const { amount, pouch } = Object.fromEntries(formData);
-  const user = await getSession();
+  const { amount, pouch, user } = Object.fromEntries(formData);
+  const user2 = JSON.parse(user as string)  
+  console.log("checking oiut")
+  console.log(user2)
+
 
   try {
     console.log("working on checking out");
     await dbConnect();
 
     const gg = new Checkout({
-      author: user.userId,
-      amount: amount as string,
+      customer: user2.userId as string,
+      amount: amount,
       product: pouch as string,
       signature: siginature,
       pending: true,
@@ -298,3 +302,26 @@ export const handleUserUpdate = async (userInput: FormData) => {
     console.log(error);
   }
 };
+
+export const getAllTranasctions = async () => {
+  try {
+    await dbConnect()
+
+
+    const trans = await Transaction.find({})
+
+    console.log(trans)
+
+
+
+    return {
+      error: "success",
+      payload: ""
+    }
+  } catch (error) {
+    return {
+      error: "error",
+      payload: error
+    }
+  }
+}

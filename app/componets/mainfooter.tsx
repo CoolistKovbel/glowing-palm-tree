@@ -14,7 +14,7 @@ const MainFooter = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 items-center p-4 bg-[#222] w-full md:w-[80%]">
+        <div className="flex flex-col md:flex-row gap-4 items-center p-4 bg-[#222] w-full md:w-[80%]">
           <Link href="/request" className="bg-[#444] p-2 hover:bg-[#111]">
             Request
           </Link>

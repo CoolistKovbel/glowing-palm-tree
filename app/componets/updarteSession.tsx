@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { joinWaitList } from "../lib/action";
 
 const MailingList = () => {
+
   const handleUserConnection = async (e: any) => {
     e.preventDefault();
     try {
@@ -21,20 +22,20 @@ const MailingList = () => {
 
   return (
     <main className="w-full ">
-      <h2 className="text-2xl p-4 font-bold">Join mailing list </h2>
+      <h2 className="text-2xl p-5 font-bold text-center bg-[#444] mb-4 uppercase">Join mailing list </h2>
+
       <form
-        className="p-10 flex gap-4 flex-col bg-[#222]"
+        className="p-10 flex gap-4 flex-col bg-[#222] w-[60%] mx-auto drop-shadow-lg rounded"
         onSubmit={handleUserConnection}
       >
         <label
           htmlFor="email"
           className="bg-[#111] p-4 flex items-center justify-between "
         >
-          <span className="bg-[#222] font-bold uppercase">email</span>
           <input
             type="email"
             placeholder="enter emeiaoil"
-            className="p-2 bg-[#222] text-white"
+            className="p-2 bg-[#222] text-white w-full"
             id="email"
             name="email        "
           />
@@ -44,6 +45,7 @@ const MailingList = () => {
           enter mailing
         </button>
       </form>
+
     </main>
   );
 };
