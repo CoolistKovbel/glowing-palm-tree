@@ -24,7 +24,7 @@ const page = async () => {
       </header>
 
 
-      <PaymentOption transactions={gg} />   
+      <PaymentOption transactions={gg} user={user} />   
 
     </main>
   );

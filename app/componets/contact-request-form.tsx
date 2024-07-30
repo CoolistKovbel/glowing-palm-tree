@@ -2,6 +2,7 @@
 
 import React from "react";
 import { MakeARequest } from "../lib/action";
+import { toast } from "react-toastify";
 
 
 const ContactRequestForm = () => {
@@ -14,14 +15,20 @@ const ContactRequestForm = () => {
       console.log("hjandling request");
 
       const formData = new FormData(e.currentTarget);
+      const form = e.target as HTMLFormElement
 
       const gg = await MakeARequest(formData);
 
-      console.log(gg);
+
+      if(gg.status === "success") {
+        toast("Message has been set")
+      }
 
       // Reest form after
+      form.reset()
     } catch (error) {
       console.log("error");
+      
     }
   };
 
@@ -66,6 +73,7 @@ const ContactRequestForm = () => {
         <button className="bg-[#222] p-2 hover:bg-[#333]">submit</button>
 
       </form>
+
     </section>
   );
 };

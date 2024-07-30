@@ -11,6 +11,7 @@ interface ITransaction extends Document {
   zip: string;
   phone: string;
   email: string;
+  total: Number;
 } 
 
 const TransactionSchema = new mongoose.Schema<ITransaction>(
@@ -18,6 +19,9 @@ const TransactionSchema = new mongoose.Schema<ITransaction>(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: User,
+    },
+    total: {
+      type: Number
     },
     transactionsignature: {
       type: String,

@@ -13,7 +13,7 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center gap-4 p-5">
       <Hero />
 
-      <ContentSection />
+      {/* <ContentSection /> */}
 
       {/* Contact compneont */}
       <Contact />

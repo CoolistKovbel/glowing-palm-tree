@@ -13,6 +13,7 @@ import { revalidatePath } from "next/cache";
 import { Transaction } from "../models/Transaction";
 import { WaitList } from "../models/WaitList";
 import { Checkout } from "../models/Checkout";
+import { Rewquest } from "../models/Rewquest";
 
 const sendMessage = `Hi, welcome to hell`;
 
@@ -42,7 +43,7 @@ export const Registrar = async (
     const UsrExist: any = await User.findOne({ address });
 
     if (UsrExist && UsrExist.length > 0) {
-      console.log("user is here....")
+      console.log("user is here....");
       if (UsrExist.sig === signature) {
         session.userId = UsrExist._id.toString();
         session.username = UsrExist.username;
@@ -58,9 +59,8 @@ export const Registrar = async (
 
         return "noice";
       }
-
     } else {
-      console.log("user is not here.......")
+      console.log("user is not here.......");
       const newUser: any = new User({
         username: username as string,
         sig: signature as string,
@@ -80,7 +80,7 @@ export const Registrar = async (
       session.username = newUser.username;
       session.image = newUser.image;
       session.email = newUser.email;
-      session.account = newUser.address
+      session.account = newUser.address;
 
       session.role = newUser.role;
       session.isLoggedIn = true;
@@ -216,14 +216,52 @@ export const logout = async () => {
   redirect("/");
 };
 
-export const MakeARequest = async (formData: FormData) => {
+export const getTransactionDetails = async (conformationId:any) => {
   try {
-    console.log("error");
+    console.log("getting detialsins id", conformationId)
+    const transaction = await Transaction.findById(conformationId)
 
-    return "need to finish";
+    console.log(transaction, "in the server")
+
+    return {
+      status: "success",
+      payload: transaction
+    }
   } catch (error) {
-    console.log(error);
-    console.log("error");
+    return {
+      status: "error",
+      payload: error
+    }
+  }
+}
+
+export const MakeARequest = async (formData: FormData) => {
+  const data:any = Object.fromEntries(formData)
+
+  try {
+    await dbConnect()
+
+    const rq = new Rewquest(data)
+
+    await sendMail(
+      {
+        to:process.env.SMTP_EMAIL as string,
+        name: data.email.split("@")[0],
+        subject: data.title, 
+        content: data.description.concat(`This had come from ${data.email}`)
+      })
+
+    await rq.save()
+
+    return {
+      status: "success",
+      payload: rq
+    }
+  } catch (error) {
+    return {
+      status: "error",
+      payload: error
+    }
   }
 };
 
@@ -238,7 +276,7 @@ export async function ContactEmail(
     await sendMail({
       to: process.env.SMTP_EMAIL as string,
       name: data.email as string,
-      subject: data.subject as string || "contactus",
+      subject: (data.subject as string) || "contactus",
       content: content.concat(` Message situated from ${data.email} `),
     });
 
@@ -254,21 +292,19 @@ export async function ContactEmail(
 // Chwckout set up
 
 export async function AddToCheckOut(formData: FormData, siginature: any) {
+  const { amount, storeId, sig } = Object.fromEntries(formData);
+  const user = await getSession();
 
-  const { amount, pouch, sig } = Object.fromEntries(formData); 
-  const user = await getSession()
-
-  console.log("checking oiut", siginature)
+  console.log("checking oiut", siginature);
 
   try {
-
     console.log("working on checking out");
     await dbConnect();
 
     const gg = new Checkout({
       customer: user.userId as string,
       amount: amount,
-      product: pouch as string,
+      product: storeId,
       signature: sig,
       pendingShipping: true,
     });
@@ -310,23 +346,64 @@ export const handleUserUpdate = async (userInput: FormData) => {
 
 export const getAllTranasctions = async () => {
   try {
-    await dbConnect()
+    await dbConnect();
 
+    const trans = await Transaction.find({});
 
-    const trans = await Transaction.find({})
-
-    console.log(trans)
-
-
+    console.log(trans);
 
     return {
       error: "success",
-      payload: ""
-    }
+      payload: "",
+    };
   } catch (error) {
     return {
       error: "error",
-      payload: error
-    }
+      payload: error,
+    };
   }
-}
+};
+
+export const createOrder = async (hash: any, user: any) => {
+  try {
+    await dbConnect();
+
+    const serverUser = await User.findById(user.userId);
+    console.log(serverUser);
+
+    if (serverUser?.Address === null) {
+      return {
+        status: "error",
+        payload: "ERRORL:finish completing or fill out your biolling form",
+      };
+    }
+
+    const checkout = await Checkout.find({ customer: user.userId });
+    console.log(checkout, "checkout");
+
+    const total: any = checkout
+      .map((item) => item.amount * 49.99)
+      .reduce((a: any, b: any) => a + b, 0);
+
+    const transactions = new Transaction({
+      user: user.uesrId,
+      total: total,
+      homeAddress: serverUser?.Address,
+      city: serverUser?.city,
+      state: serverUser?.state,
+      zip: serverUser?.zip,
+    });
+
+    await transactions.save();
+
+    return {
+      status: "success",
+      payload: transactions,
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};

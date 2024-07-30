@@ -40,7 +40,8 @@ const UserLogged = ({ isLogged }: UserLoggedProps) => {
   return (
     <>
       {isLogged ? (
-        <nav className="md:w-[30%] relative flex items-center justify-between bg-[#555] drop-shadow-lg p-4">
+        <nav className=" w-[40%] relative flex items-center justify-between bg-[#555] drop-shadow-lg p-4 z-[100]">
+          
           <div className="flex items-center md:gap-5">
             <Link href="/about" className="bg-[#222] p-2 hover:underline ">
               About
@@ -48,17 +49,22 @@ const UserLogged = ({ isLogged }: UserLoggedProps) => {
             <Link href="/shop" className="bg-[#222] p-2 hover:underline ">
               Shop
             </Link>
+            <Link href={"/cart"} className="bg-[#222] p-2 hover:underline ">Cart</Link>
           </div>
 
           <button
             onClick={() => sethandleUserToggle((prev: any) => !prev)}
             className="bg-[#444] p-2 rounded-lg drop-shadow-lg"
           >
-            profile
+
+            <span className="rotate-45">
+             🌠
+            </span>
+
           </button>
 
           {handleUserToggle && (
-            <div className="w-[300px] h-[300px] absolute top-14 right-0 flex flex-col gap-4 bg-[#111] p-4 drop-shadow-lg rounded-lg z-50 ">
+            <div className="w-[300px] h-[300px] absolute top-14 right-0 flex flex-col gap-4 bg-[#111] p-4 drop-shadow-lg rounded-lg z-[100] ">
               <Link href="/profile" className="bg-[#222] p-2">
                 profile
               </Link>
@@ -73,7 +79,7 @@ const UserLogged = ({ isLogged }: UserLoggedProps) => {
           )}
         </nav>
       ) : (
-        <nav className="w-[34%] flex items-center justify-between bg-[#444] p-4">
+        <nav className="w-[40%] flex items-center justify-between bg-[#444] p-4">
           <div className="flex items-center  w-[50%]">
             <Link href="/about" className=" p-2 hover:underline ">
               About
