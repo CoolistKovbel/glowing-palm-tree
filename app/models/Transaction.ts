@@ -23,6 +23,7 @@ const TransactionSchema = new mongoose.Schema<ITransaction>(
     total: {
       type: Number
     },
+    
     transactionsignature: {
       type: String,
     },

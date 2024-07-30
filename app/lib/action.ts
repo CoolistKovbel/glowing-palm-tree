@@ -216,52 +216,51 @@ export const logout = async () => {
   redirect("/");
 };
 
-export const getTransactionDetails = async (conformationId:any) => {
+export const getTransactionDetails = async (conformationId: any) => {
   try {
-    console.log("getting detialsins id", conformationId)
-    const transaction = await Transaction.findById(conformationId)
+    console.log("getting detialsins id", conformationId);
+    const transaction = await Transaction.findById(conformationId);
 
-    console.log(transaction, "in the server")
+    console.log(transaction, "in the server");
 
     return {
       status: "success",
-      payload: transaction
-    }
+      payload: transaction,
+    };
   } catch (error) {
     return {
       status: "error",
-      payload: error
-    }
+      payload: error,
+    };
   }
-}
+};
 
 export const MakeARequest = async (formData: FormData) => {
-  const data:any = Object.fromEntries(formData)
+  const data: any = Object.fromEntries(formData);
 
   try {
-    await dbConnect()
+    await dbConnect();
 
-    const rq = new Rewquest(data)
+    const rq = new Rewquest(data);
 
-    await sendMail(
-      {
-        to:process.env.SMTP_EMAIL as string,
-        name: data.email.split("@")[0],
-        subject: data.title, 
-        content: data.description.concat(`This had come from ${data.email}`)
-      })
+    await sendMail({
+      to: process.env.SMTP_EMAIL as string,
+      name: data.email.split("@")[0],
+      subject: data.title,
+      content: data.description.concat(`This had come from ${data.email}`),
+    });
 
-    await rq.save()
+    await rq.save();
 
     return {
       status: "success",
-      payload: rq
-    }
+      payload: rq,
+    };
   } catch (error) {
     return {
       status: "error",
-      payload: error
-    }
+      payload: error,
+    };
   }
 };
 
@@ -290,6 +289,30 @@ export async function ContactEmail(
 }
 
 // Chwckout set up
+
+export const handleCloseItem = async (checkoutId: any) => {
+  try {
+    await dbConnect();
+
+    const handleItem = await Checkout.findById(checkoutId);
+
+    await handleItem?.deleteOne();
+
+    console.log(handleItem);
+
+    revalidatePath("/cart");
+
+    return {
+      status: "success",
+      payload: "",
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      payload: error,
+    };
+  }
+};
 
 export async function AddToCheckOut(formData: FormData, siginature: any) {
   const { amount, storeId, sig } = Object.fromEntries(formData);
@@ -369,7 +392,6 @@ export const createOrder = async (hash: any, user: any) => {
     await dbConnect();
 
     const serverUser = await User.findById(user.userId);
-    console.log(serverUser);
 
     if (serverUser?.Address === null) {
       return {
@@ -378,11 +400,10 @@ export const createOrder = async (hash: any, user: any) => {
       };
     }
 
-    const checkout = await Checkout.find({ customer: user.userId });
-    console.log(checkout, "checkout");
+    const checkoutDoc: any = await Checkout.find({ customer: user.userId });
 
-    const total: any = checkout
-      .map((item) => item.amount * 49.99)
+    const total: any = checkoutDoc
+      .map((item: any) => item.amount * 49.99)
       .reduce((a: any, b: any) => a + b, 0);
 
     const transactions = new Transaction({
@@ -395,6 +416,10 @@ export const createOrder = async (hash: any, user: any) => {
     });
 
     await transactions.save();
+
+    await checkoutDoc.deleteOne();
+
+    revalidatePath("/cart");
 
     return {
       status: "success",

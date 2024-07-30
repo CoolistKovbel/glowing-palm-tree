@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 
 
 const ConformationPage = () => {
+
     const searchParams = useSearchParams()
     const conformationId = searchParams.get("id")
     const [currentTransaction, setCurrentTransaction] = useState("")
@@ -22,9 +23,6 @@ const ConformationPage = () => {
         gg()
     },[])
     
-
-
-    console.log(currentTransaction)
 
   return (
     <div className='w-[80%] mx-auto  bg-[#222] drop-shadow-lg rounded'>
