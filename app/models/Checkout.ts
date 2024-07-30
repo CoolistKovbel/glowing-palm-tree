@@ -8,7 +8,7 @@ export interface ICheckout {
   customer?: any;
   amount?: any;
   product?: any;
-  pending?: any;
+  pendingShipping?: any;
   signature?: any;
   description?: any;
   metaAddress?: any;
@@ -30,7 +30,7 @@ const CheckoutSchema = new mongoose.Schema<ICheckout>(
     transacationHash: {
       type: String,
     },
-    pending: {
+    pendingShipping: {
       type: Boolean,
       default: false,
     },

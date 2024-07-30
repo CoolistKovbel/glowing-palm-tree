@@ -41,13 +41,14 @@ export const Registrar = async (
 
     const UsrExist: any = await User.findOne({ address });
 
-    if (UsrExist) {
+    if (UsrExist && UsrExist.length > 0) {
+      console.log("user is here....")
       if (UsrExist.sig === signature) {
         session.userId = UsrExist._id.toString();
         session.username = UsrExist.username;
         session.image = UsrExist.image;
         session.email = UsrExist.email;
-        session.account = UsrExist.account;
+        session.address = UsrExist.address;
 
         session.role = UsrExist.role;
         session.isLoggedIn = true;
@@ -57,7 +58,9 @@ export const Registrar = async (
 
         return "noice";
       }
+
     } else {
+      console.log("user is not here.......")
       const newUser: any = new User({
         username: username as string,
         sig: signature as string,
@@ -77,6 +80,7 @@ export const Registrar = async (
       session.username = newUser.username;
       session.image = newUser.image;
       session.email = newUser.email;
+      session.account = newUser.address
 
       session.role = newUser.role;
       session.isLoggedIn = true;
@@ -234,7 +238,7 @@ export async function ContactEmail(
     await sendMail({
       to: process.env.SMTP_EMAIL as string,
       name: data.email as string,
-      subject: data.subject as string,
+      subject: data.subject as string || "contactus",
       content: content.concat(` Message situated from ${data.email} `),
     });
 
@@ -250,27 +254,28 @@ export async function ContactEmail(
 // Chwckout set up
 
 export async function AddToCheckOut(formData: FormData, siginature: any) {
-  const { amount, pouch, user } = Object.fromEntries(formData);
-  const user2 = JSON.parse(user as string)  
-  console.log("checking oiut")
-  console.log(user2)
 
+  const { amount, pouch, sig } = Object.fromEntries(formData); 
+  const user = await getSession()
+
+  console.log("checking oiut", siginature)
 
   try {
+
     console.log("working on checking out");
     await dbConnect();
 
     const gg = new Checkout({
-      customer: user2.userId as string,
+      customer: user.userId as string,
       amount: amount,
       product: pouch as string,
-      signature: siginature,
-      pending: true,
+      signature: sig,
+      pendingShipping: true,
     });
 
     await gg.save();
 
-    revalidatePath("/");
+    revalidatePath("/shop");
 
     return "Success";
   } catch (error) {

@@ -1,8 +1,12 @@
 import { getAllTranasctions, getSession } from "@/app/lib/action";
 import { getCurrentUserTransactionById } from "@/app/lib/getUserLib";
+import {ethers} from "ethers"
 import Link from "next/link";
 
+
+
 const Page = async () => {
+
   const gg = await getSession();
   // const trnasaction =  await getAllTranasctions()
 
@@ -28,7 +32,14 @@ const Page = async () => {
       product: "firstaid three",
       date: "01-02-03",
     },
-  ];
+  ]
+
+// const provider  = new ethers.providers.Web3Provider(window?.location)
+// const getPriceFromEthjer = provider.getEtherPrice()
+// const getPriceOfGass = provider.getGasPrice()
+// const currentBlockBumber = provider.blockNumber
+// const signer = provider.getSigner()
+
 
 
 
@@ -74,4 +85,3 @@ const Page = async () => {
 };
 
 export default Page;
-// {moment(item?.date).format("MMMM Do YYYY")}

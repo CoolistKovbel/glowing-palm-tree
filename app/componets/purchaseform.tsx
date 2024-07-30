@@ -3,14 +3,17 @@
 import Link from "next/link";
 import { AddToCheckOut  } from "../lib/action";
 import { useRouter } from "next/navigation";
+import { ethers } from "ethers";
 
 interface PurchaseFormProps {
   user: any;
 }
 
 const PurchaseForm = ({ user }: PurchaseFormProps) => {
+
   const deUser = JSON.parse(user);
   const router = useRouter()
+
   // const handleFormSubmit = async (e: any) => {
   //   e.preventDefault();
 
@@ -87,12 +90,24 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
   
     const handleFormSubmit = async (e:any) => {
       e.preventDefault()
+
       const formData = new FormData(e.currentTarget)
+
+      const provider = new ethers.providers.Web3Provider(window?.location)
+      const signer = provider.getSigner()
+      const address = await signer.getAddress()
       
+      const message = `hey ${user.username}, this product is one of a kind you will handle it with caution.`
+      const sig = await signer.signMessage(message)
+
+      console.log(sig, "user signature")
 
       try {
+
         formData.append("amount", e.target.amountNeed.value)  
         formData.append("user", JSON.stringify(deUser))
+        formData.append("userSignature", sig)
+
         const res = await AddToCheckOut(formData, undefined)
         
         if(res === "Success") {
@@ -103,12 +118,20 @@ const PurchaseForm = ({ user }: PurchaseFormProps) => {
         console.log("Error", error)
       }
     }
+
+
+    document.addEventListener("mousedown", (e) => {
+      console.log(e.currentTarget)
+      console.log(e.target)
+      console.log(e)
+    })
   
+
   return (
     <form onSubmit={handleFormSubmit}>
       
       <label htmlFor="amountNeed" className="flex flex-col gap-4">
-        <span className="text-2xl">Amount</span>
+        <span className="text-2xl">Amount: </span>
 
         <input
           type="text"

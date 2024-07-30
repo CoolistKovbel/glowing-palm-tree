@@ -20,13 +20,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  // Grabbing user from server
   const user = await getSession()
 
   return (
 
     <html lang="en">
       <body className={inter.className}>
-        <MainHeader userSession={JSON.stringify(user)} />
+        <MainHeader 
+          userSession={JSON.stringify(user)} 
+        />
         {children}
         <MainFooter />
         <ModalProvider />

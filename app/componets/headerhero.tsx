@@ -13,8 +13,8 @@ const HeaderHero = () => {
 
   return (
     <header className="p-10 w-full flex items-center justify-between flex-col md:flex-row gap-5">
-      <div className="md:w-[50%] flex md:items-start justtify-betweeen flex-col gap-4">
-        <h2 className="text-2xl mb-2">
+      <div className="md:w-[50%] flex md:items-start justtify-betweeen capitalize flex-col gap-4">
+        <h2 className="text-4xl mb-2">
           Get yourself our unique kind of health kits suited to better your
           health
         </h2>

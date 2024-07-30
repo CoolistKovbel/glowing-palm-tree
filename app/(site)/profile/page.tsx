@@ -11,7 +11,7 @@ const Page = async () => {
 
   const serverUser:any = await getCurrenbyUserId(user.userId as string);
 
-  
+  console.log(user)
 
   return (
     <main className="min-h-screen flex-col items-center gap-4 p-5">
@@ -44,7 +44,7 @@ const Page = async () => {
             email: <span>{user.email}</span>
           </p>
           <p className="bg-[#111] p-2">
-            metaAddress: <span>{user.metaAccount}</span>
+            metaAddress: <span>{user.address}</span>
           </p>
           
         </div>

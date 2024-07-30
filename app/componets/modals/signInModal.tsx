@@ -54,11 +54,15 @@ const SignInModal = () => {
       }`}
     >
       <div className="bg-[#222] rounded-md p-4 w-[300px] md:w-[600px] overflow-auto h-[50%]">
+
         <div className="w-full h-full text-white flex justify-around flex-col relative">
-          <h2 className="text-2xl md:text-4xl text-center font-bold">
+
+          <h2 className="text-xl md:text-2xl text-center font-bold">
             Sign In, {parseSig?.sAd.substring(0, 9)}
           </h2>
 
+
+          {/* Form */}
           <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center bg-gray-900 p-6 rounded-lg shadow-lg "
@@ -99,7 +103,9 @@ const SignInModal = () => {
               />
             </svg>
           </button>
+
         </div>
+
       </div>
     </div>
   );

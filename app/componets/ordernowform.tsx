@@ -34,6 +34,7 @@ const OrderNowForm = ({ isLogged }: OrderNowFormProps) => {
         console.log(gg);
         router.push("/cart");
       }
+      
     } catch (error) {
       console.log("error", error);
     }

@@ -6,6 +6,8 @@ import { getSession } from "@/app/lib/action";
 const Page = async () => {
   const isLogged = await getSession();
 
+  console.log(isLogged, "order now user")
+
   return (
     <main className="text-2xl">
 

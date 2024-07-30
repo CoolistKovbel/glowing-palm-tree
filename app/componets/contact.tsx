@@ -1,7 +1,9 @@
 import Link from "next/link";
 import React from "react";
+import ContactUs from "./contactus";
 
 const Contact = () => {
+
   return (
     <div className="bg-[#333] p-4">
 
@@ -14,29 +16,7 @@ const Contact = () => {
         </p>
       </header>
 
-      <form className="p-4">
-        <label htmlFor="email">
-          <span className="text-4xl font-bold">Email:</span>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="p-2 bg-[#222] w-full mb-4  mt-4"
-          />
-        </label>
-        <label htmlFor="messaage">
-          <span className="text-4xl font-bold">Message:</span>
-          <textarea
-            id="message"
-            name="message"
-            className="w-full h-[400px] overflow-auto bg-[#222] p-2 resize-none mt-4"
-          />
-        </label>
-        
-        <button className="bg-red-500 p-2 rounded-lg w-[30%] font-bold hover:bg-red-800 mt-4">
-          contact
-        </button>
-      </form>
+      <ContactUs />
 
       <div className="flex items-center justify-around mt-10  bg-[#222] rounded drop-shadow-lg p-8 ">
         <Link
