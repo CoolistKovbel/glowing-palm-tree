@@ -400,30 +400,55 @@ export const createOrder = async (hash: any, user: any) => {
       };
     }
 
-    const checkoutDoc: any = await Checkout.find({ customer: user.userId });
+    const checkoutDoc = await Checkout.find({ customer: user.userId });
+    console.log(checkoutDoc, "the documenticet");
 
+    // get totla
     const total: any = checkoutDoc
       .map((item: any) => item.amount * 49.99)
       .reduce((a: any, b: any) => a + b, 0);
 
+    // change checkout
+    
+    const updatedCheckout = checkoutDoc.map((item) => {
+      if(item.pendingShipping === true) {
+        item.pendingShipping = false
+      }
+      return item
+    })
+
+    console.log("updating checkout")
+    updatedCheckout.forEach(async (item) => await item.save())
+    console.log("checkout updated", updatedCheckout)
+
+
+
+    console.log(total, "the total of chekcout items");
+
     const transactions = new Transaction({
-      user: user.uesrId,
+      user: user.userId,
       total: total,
       homeAddress: serverUser?.Address,
       city: serverUser?.city,
       state: serverUser?.state,
       zip: serverUser?.zip,
+      items: checkoutDoc.map((item:any) => item._id),
+      transactionNotiSig: hash
     });
+   
+    console.log("items and hash", hash)
+    
+    console.log(transactions, "paper?");
 
     await transactions.save();
 
-    await checkoutDoc.deleteOne();
+    
 
-    revalidatePath("/cart");
+    // revalidatePath("/cart");
 
     return {
       status: "success",
-      payload: transactions,
+      payload: transactions._id,
     };
   } catch (error) {
     return {
@@ -432,3 +457,24 @@ export const createOrder = async (hash: any, user: any) => {
     };
   }
 };
+
+export const updateCurrentOrder = async (orderId:any, hash:any) => {
+  try {
+
+    await dbConnect()
+
+    const updateOrder = await Transaction.findByIdAndUpdate(orderId, {
+      transactionHash: hash
+    })
+
+    return {
+      status: "success",
+      payload: updateOrder
+    }
+  } catch (error) {
+    return {
+      status: "error",
+      payload: error
+    }
+  }
+}

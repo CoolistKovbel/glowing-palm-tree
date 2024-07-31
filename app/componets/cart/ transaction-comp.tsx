@@ -7,18 +7,19 @@ interface TransactionCompProps {
 }
 
 const TransactionComp = ({ transactions }: TransactionCompProps) => {
+  const pendingTransactions = transactions.filter((item:any) => item.pendingShipping === true)
 
   let fullPAyment = 0;
-
-  transactions.forEach((item:any) => {
+  pendingTransactions.forEach((item:any) => {
     fullPAyment += Number(item.amount);
   });
 
+  
 
   return (
     <div className="flex items-center flex-col gap-4 ">
 
-      {transactions.map((item:any) => {
+      {pendingTransactions.map((item:any) => {
         return (
           <section key={crypto.randomUUID()} className="bg-[#222] p-2 w-full relative">
 

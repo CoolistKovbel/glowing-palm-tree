@@ -6,8 +6,9 @@ import MainFooter from "./componets/mainfooter";
 import { getSession } from "./lib/action";
 import { ModalProvider } from "./componets/providers/model-provider";
 
-import { ToastContainer} from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Checkout } from "./models/Checkout";
 
 export const metadata: Metadata = {
   title: "Ezpeaid",
@@ -22,14 +23,27 @@ export default async function RootLayout({
 }>) {
 
   // Grabbing user from server
-  const user = await getSession()
+  const user = await getSession();
+  let gg:any = {};
+
+  // Checkout
+  if(user.isLoggedIn) {
+
+    gg = await Checkout.find({
+      customer: user.userId,
+    });
+
+    gg = gg.filter((item:any) => item.pendingShipping === true)
+
+  }
+  
 
   return (
-
     <html lang="en">
       <body className={inter.className}>
-        <MainHeader 
-          userSession={JSON.stringify(user)} 
+        <MainHeader
+          userSession={JSON.stringify(user)}
+          userCart={JSON.stringify(gg)}
         />
         {children}
         <MainFooter />

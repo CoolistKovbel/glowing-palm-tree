@@ -52,7 +52,6 @@ const UserSchema = new mongoose.Schema<IUser>(
     },
     sig: {
       type: String || null,
-      unique: true,
     },
     address: {
       type: String,

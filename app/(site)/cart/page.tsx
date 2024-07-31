@@ -5,6 +5,7 @@ import { Checkout } from "@/app/models/Checkout";
 
 const page = async () => {
   const user = await getSession();
+  
   const gg = await Checkout.find({
     customer: user.userId,
   });

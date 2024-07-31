@@ -1,3 +1,4 @@
+import NotificationProfo from "@/app/componets/notificationProfo";
 import { getSession } from "@/app/lib/action";
 import { getCurrenbyUserId } from "@/app/lib/getUserLib";
 import Image from "next/image";
@@ -6,16 +7,24 @@ import React from "react";
 
 const Page = async () => {
   const user:any = await getSession();
-
   const isDev = user.role === "DEV";
 
   const serverUser:any = await getCurrenbyUserId(user.userId as string);
-
-  console.log(user)
+  const suUser = JSON.parse(serverUser)
+  console.log(suUser)
 
   return (
-    <main className="min-h-screen flex-col items-center gap-4 p-5">
-      <header className="p-10 bg-[#222] flex items-center justify-between">
+    <main className="min-h-screen flex-col items-center gap-10 flex p-5">
+
+      {
+        suUser.Address === null && (
+          <NotificationProfo />
+        )
+      }
+
+
+
+      <header className="p-10 bg-[#222] flex items-center justify-between w-full">
         <h2 className="text-2xl">PRofile</h2>
 
         <Link href="/profile/update" className="bg-gray-400 p-2 rounded-lg">
@@ -23,7 +32,7 @@ const Page = async () => {
         </Link>
       </header>
 
-      <section>
+      <section className="w-full">
         <header className="flex items-center justify-around p-10">
           <div className="w-[300px] h-[300px] relative">
             <Image src="https://picsum.photos/200" alt="eh" fill />
@@ -44,7 +53,7 @@ const Page = async () => {
             email: <span>{user.email}</span>
           </p>
           <p className="bg-[#111] p-2">
-            metaAddress: <span>{user.address}</span>
+            metaAddress: <span>{suUser.address}</span>
           </p>
           
         </div>

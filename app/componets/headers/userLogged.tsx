@@ -9,9 +9,10 @@ import LogoutButton from "../logoutbutton";
 
 interface UserLoggedProps {
   isLogged: boolean;
+  userCart:any;
 }
 
-const UserLogged = ({ isLogged }: UserLoggedProps) => {
+const UserLogged = ({ isLogged, userCart }: UserLoggedProps) => {
   const { onOpen } = useModal();
   const [handleUserToggle, sethandleUserToggle] = useState(false);
 
@@ -49,7 +50,7 @@ const UserLogged = ({ isLogged }: UserLoggedProps) => {
             <Link href="/shop" className="bg-[#222] p-2 hover:underline ">
               Shop
             </Link>
-            <Link href={"/cart"} className="bg-[#222] p-2 hover:underline ">Cart</Link>
+            <Link href={"/cart"} className="bg-[#222] p-2 hover:underline relative">Cart <span className="p-2 bg-[#444] absolute -top-5 -right-5 rounded-full">{JSON.parse(userCart).length}</span></Link>
           </div>
 
           <button

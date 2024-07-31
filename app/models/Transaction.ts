@@ -1,5 +1,6 @@
-import mongoose, { Model, Document } from "mongoose";
+import mongoose, { Model, Document, Types } from "mongoose";
 import { User } from "./User";
+import { Checkout } from "./Checkout";
 
 interface ITransaction extends Document {
   user: any;
@@ -12,7 +13,9 @@ interface ITransaction extends Document {
   phone: string;
   email: string;
   total: Number;
-} 
+  items: [Types.ObjectId];
+  transactionNotiSig: string;
+}
 
 const TransactionSchema = new mongoose.Schema<ITransaction>(
   {
@@ -21,14 +24,22 @@ const TransactionSchema = new mongoose.Schema<ITransaction>(
       ref: User,
     },
     total: {
-      type: Number
+      type: Number,
     },
-    
+    items: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Checkout,
+      },
+    ],
     transactionsignature: {
       type: String,
     },
     transactionHash: {
       type: String,
+    },
+    transactionNotiSig:{
+      type: String
     },
     homeAddress: {
       type: String,

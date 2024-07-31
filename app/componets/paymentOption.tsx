@@ -2,7 +2,7 @@
 
 import { ethers } from "ethers";
 import { toast } from "react-toastify";
-import { createOrder } from "../lib/action";
+import { createOrder, updateCurrentOrder } from "../lib/action";
 import { useRouter } from "next/navigation";
 
 interface PaymentOptionProp {
@@ -11,57 +11,62 @@ interface PaymentOptionProp {
 }
 
 export const PaymentOption = ({ transactions, user }: PaymentOptionProp) => {
-  
   let paymentTotal = 0;
   const router = useRouter();
 
   transactions.map((item: any) => {
-    paymentTotal += Number(item.amount);
+    if (item.pendingShipping === true) {
+      paymentTotal += Number(item.amount);
+    }
   });
 
-  const handleSub = async () => {
+  const handleSub6 = async () => {
     try {
       console.log("submiting trnasaction");
-
-
-      // sigbn
-
-      const gg = new ethers.providers.Web3Provider(window.ethereum);
-      const etherPrice = 3500;
+      const etherPrice = 3200;
       const price = (paymentTotal * 49.99) / etherPrice;
+      const gg = new ethers.providers.Web3Provider(window.ethereum);
+      const message = `You have enough $$ for your order`;
 
+      const signer = gg.getSigner();
+      const address = await signer.getAddress();
+      const sign: any = await signer.signMessage(message);
+
+      const authorizationPrep = ethers.utils.verifyMessage(message, sign);
       const amountInWei = ethers.utils.parseEther(price.toString());
 
-      const signer = await gg.getSigner();
-
-      const basictranasction = await signer.sendTransaction({
-        value: amountInWei,
-        gasLimit: 900000,
-        to: "0x1C352E8F3e035c524F2385818b44859906d3c705",
-      });
-
-      toast(`Setting transactoin ${JSON.stringify(basictranasction.hash)}` );
-
-      await basictranasction.wait();
-
-      toast(`completing transactoin ${JSON.stringify(basictranasction.hash)}`);
+      if (authorizationPrep.toLowerCase() === address.toLowerCase()) {
+        console.log("address correct");
+      }
 
       // Create server
-      const transaction: any = await createOrder(basictranasction.hash, user);
+      const transaction: any = await createOrder(sign, user);
 
       if (transaction.status === "error") {
         toast(transaction.payload as string);
       }
 
       if (transaction.status === "success") {
-        router.push(
-          `/shop/confirmation?id=${transaction.payload._id as string}`
+        const basictranasction = await signer.sendTransaction({
+          value: amountInWei,
+          gasLimit: 900000,
+          to: "0x1C352E8F3e035c524F2385818b44859906d3c705",
+        });
+
+        console.log(basictranasction);
+
+        toast(`Setting transactoin ${JSON.stringify(basictranasction.hash)}`);
+
+        await basictranasction.wait();
+
+        toast(
+          `completing transactoin ${JSON.stringify(basictranasction.hash)}`
         );
+
+        await updateCurrentOrder(transaction.payload, basictranasction.hash);
+
+        router.push(`/shop/confirmation?id=${transaction.payload as string}`);
       }
-
-
-
-      console.log(transaction);
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +83,7 @@ export const PaymentOption = ({ transactions, user }: PaymentOptionProp) => {
         </p>
 
         <button
-          onClick={handleSub}
+          onClick={handleSub6}
           className="bg-[#111] hover:bg-[#666] p-2 rounded-lg w-full"
         >
           pay
