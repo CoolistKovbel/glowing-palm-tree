@@ -61,7 +61,6 @@ const SignInModal = () => {
             Sign In, {parseSig?.sAd.substring(0, 9)}
           </h2>
 
-
           {/* Form */}
           <form
             onSubmit={handleSubmit}
@@ -72,7 +71,7 @@ const SignInModal = () => {
               <input
                 type="string"
                 className="w-full bg-gray-800 text-white rounded-md py-2 px-4 mb-4 focus:outline-none focus:ring focus:border-blue-300"
-                placeholder="Enter name"
+                placeholder="Enter username"
                 name="username"
                 id="username"
               />

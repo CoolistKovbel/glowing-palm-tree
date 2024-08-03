@@ -4,6 +4,8 @@ import { ethers } from "ethers";
 import { toast } from "react-toastify";
 import { createOrder, updateCurrentOrder } from "../lib/action";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Spinner from "./ui/spinner";
 
 interface PaymentOptionProp {
   transactions: any;
@@ -11,6 +13,7 @@ interface PaymentOptionProp {
 }
 
 export const PaymentOption = ({ transactions, user }: PaymentOptionProp) => {
+  const [isLoading, setIsLoading] = useState(false);
   let paymentTotal = 0;
   const router = useRouter();
 
@@ -24,7 +27,8 @@ export const PaymentOption = ({ transactions, user }: PaymentOptionProp) => {
     try {
       console.log("submiting trnasaction");
       const etherPrice = 3200;
-      const price = (paymentTotal * 49.99) / etherPrice;
+      // const price = (paymentTotal * 49.99) / etherPrice;
+      const price = (paymentTotal * 3) / etherPrice;
       const gg = new ethers.providers.Web3Provider(window.ethereum);
       const message = `You have enough $$ for your order`;
 
@@ -37,16 +41,7 @@ export const PaymentOption = ({ transactions, user }: PaymentOptionProp) => {
 
       if (authorizationPrep.toLowerCase() === address.toLowerCase()) {
         console.log("address correct");
-      }
 
-      // Create server
-      const transaction: any = await createOrder(sign, user);
-
-      if (transaction.status === "error") {
-        toast(transaction.payload as string);
-      }
-
-      if (transaction.status === "success") {
         const basictranasction = await signer.sendTransaction({
           value: amountInWei,
           gasLimit: 900000,
@@ -54,27 +49,37 @@ export const PaymentOption = ({ transactions, user }: PaymentOptionProp) => {
         });
 
         console.log(basictranasction);
-
+        setIsLoading(true);
         toast(`Setting transactoin ${JSON.stringify(basictranasction.hash)}`);
 
         await basictranasction.wait();
+        const transaction: any = await createOrder(sign, user);
+
+        if (transaction.status === "error") {
+          toast(transaction.payload as string);
+        }
+
+        if (transaction.status === "success") {
+          router.push(`/shop/confirmation?id=${transaction.payload as string}`);
+        }
+
+        setIsLoading(false);
 
         toast(
           `completing transactoin ${JSON.stringify(basictranasction.hash)}`
         );
-
-        await updateCurrentOrder(transaction.payload, basictranasction.hash);
-
-        router.push(`/shop/confirmation?id=${transaction.payload as string}`);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error, "ERrrooooR");
+      toast("An error accoured please check your account settings");
     }
   };
 
   return (
     <div className="bg-[#222] p-4">
       <h2 className="text-2xl font-bold">Checkout with crypto</h2>
+
+      {isLoading && <Spinner />}
 
       <div className="flex items-center justify-center bg-[#444] p-3 mt-3 gap-4 flex-col">
         <p className="flex items-center justify-between w-full">

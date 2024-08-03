@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@pinata/sdk": "^2.1.0",
     "bcryptjs": "^2.4.3",
     "ethers": "^5.7.2",
     "iron-session": "^8.0.1",

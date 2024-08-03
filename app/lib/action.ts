@@ -41,6 +41,9 @@ export const Registrar = async (
     await dbConnect();
 
     const UsrExist: any = await User.findOne({ address });
+    const UserExist = await User.findOne({sig: signature})
+
+    console.log(UserExist, "user exists through signature")
 
     if (UsrExist && UsrExist.length > 0) {
       console.log("user is here....");
@@ -442,9 +445,7 @@ export const createOrder = async (hash: any, user: any) => {
 
     await transactions.save();
 
-    
-
-    // revalidatePath("/cart");
+    revalidatePath("/cart");
 
     return {
       status: "success",
