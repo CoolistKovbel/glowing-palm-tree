@@ -1,28 +1,23 @@
 import NotificationProfo from "@/app/componets/notificationProfo";
 import { getSession } from "@/app/lib/action";
-import { getCurrenbyUserId } from "@/app/lib/getUserLib";
+import { getCurrenbyUserId, userPurchesHistory, userTransactionHistory } from "@/app/lib/getUserLib";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const Page = async () => {
-  const user:any = await getSession();
+  const user: any = await getSession();
   const isDev = user.role === "DEV";
 
-  const serverUser:any = await getCurrenbyUserId(user.userId as string);
-  const suUser = JSON.parse(serverUser)
-  console.log(suUser)
+  const serverUser: any = await getCurrenbyUserId(user.userId as string);
+  const suUser = JSON.parse(serverUser);
+
+  const checkoutList = await userPurchesHistory(user.userId as string);
+  const userTranasctoins = await userTransactionHistory(user.userId)
 
   return (
     <main className="min-h-screen flex-col items-center gap-10 flex p-5">
-
-      {
-        suUser.Address === null && (
-          <NotificationProfo />
-        )
-      }
-
-
+      {suUser.Address === null && <NotificationProfo />}
 
       <header className="p-10 bg-[#222] flex items-center justify-between w-full">
         <h2 className="text-2xl">PRofile</h2>
@@ -55,7 +50,26 @@ const Page = async () => {
           <p className="bg-[#111] p-2">
             metaAddress: <span>{suUser.address}</span>
           </p>
-          
+        </div>
+      </section>
+
+      <section className="w-full">
+        <header className="mb-10">
+          <h2 className="text-2xl">Recent Purchases:</h2>
+        </header>
+        <div className="w-[80%] mx-auto p-4 bg-[#555]">
+          {checkoutList?.map((item) => (
+            <div
+              key={crypto.randomUUID()}
+              className="flex drop-shadow-lg rounded items-center justify-between bg-[#444] p-4"
+            >
+              <div>
+                <h2>{item.product}</h2>
+                <h3>{item.description}</h3>
+              </div>
+              <h2>Amount: {item.amount}</h2>
+            </div>
+          ))}
         </div>
       </section>
     </main>

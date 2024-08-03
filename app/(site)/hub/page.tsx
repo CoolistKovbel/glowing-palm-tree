@@ -2,49 +2,22 @@ import HeaderHub from "@/app/componets/header-hub";
 import { getSession } from "@/app/lib/action";
 import { Job } from "@/app/models/jobs";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Page = async () => {
-
+  const getServerJobRequests = null;
   const isLogged = await getSession()
 
   const recentlyCompleted = [
     {
-      title: "Market Basic blog",
-      description: "basic blog  setup with the latest packages",
+      id: crypto.randomUUID(),
+      title: "help i fallen and i cant get up",
+      description: "i have access to onlymy phone and nobody is reaching  back to me and i dont know who else to call",
       creator: "0x1414f",
       creatorImage: "https://picsum.photos/32",
     },
-    {
-      title: "Market Basic site",
-      description: "basic blog  setup with the latest packages",
-      creator: "0x1asdasd4f",
-      creatorImage: "https://picsum.photos/32",
-    },
-    {
-      title: "Market Basic blog",
-      description: "basic blog  setup with the latest packages",
-      creator: "0x1414f",
-      creatorImage: "https://picsum.photos/32",
-    },
-    {
-      title: "Market Basic site",
-      description: "basic blog  setup with the latest packages",
-      creator: "0x1asdasd4f",
-      creatorImage: "https://picsum.photos/32",
-    },
-    {
-      title: "Market Basic blog",
-      description: "basic blog  setup with the latest packages",
-      creator: "0x1414f",
-      creatorImage: "https://picsum.photos/32",
-    },
-    {
-      title: "Market Basic site",
-      description: "basic blog  setup with the latest packages",
-      creator: "0x1asdasd4f",
-      creatorImage: "https://picsum.photos/32",
-    },
+
   ];
 
   const jobRequests = await Job.find({}).lean()
@@ -55,19 +28,19 @@ const Page = async () => {
 
       <HeaderHub isLogged={isLogged} serverJobs={jobRequests} />
 
-      <div className="bg-[#555] p-4">
+      <section className="bg-[#555] p-4">
 
         <header>
-          <h2 className="text-4xl font-bold">Recently Completed Sites:</h2>
+          <h2 className="text-4xl font-bold">Ezuaid Requests:</h2>
           <p className="text-sm text-gray-300">
-            We can quick create a custom blog, recipe, contact site, etc.
+            Get aid or fast relief from our aid force
           </p>
         </header>
 
         <div className=" ">
 
           {recentlyCompleted.length > 0 ? (
-            <div className="flex flex-col md:flex-row flex-wrap gap-4 p-4 h-[800px] w-full overflow-auto justify-center items-center">
+            <div className="flex flex-col md:flex-row flex-wrap gap-4 p-4 h-[800px] w-full overflow-auto justify-start items-start">
               {recentlyCompleted.map((item) => (
                 <div
                   key={crypto.randomUUID()}
@@ -76,6 +49,7 @@ const Page = async () => {
 
                   <h2 className="text-2xl">{item.title}</h2>
                   <p className="text-md">{item.description}</p>
+                  <Link href={`/hub/requests/${item.id}`}>View more</Link>
 
                   <footer className="flex items-center justify-around w-full">
                     <div className="w-[3rem] h-[3rem] relative">
@@ -96,7 +70,7 @@ const Page = async () => {
         </div>
 
 
-      </div>
+      </section>
 
     </main>
   );

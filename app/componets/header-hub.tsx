@@ -18,12 +18,11 @@ const HeaderHub = ({ isLogged, serverJobs }: HeaderHub) => {
   return (
     <header className="w-full p-10 bg-[#111] flex flex-col gap-2 ">
       <h2 className="text-2xl md:text-4xl font-bold">
-        Welcome to the DefenMarketing Hub
+        Welcome to Ezuaid HUB
       </h2>
 
       <p className="text-sm text-gray-500">
-        Looking to make a request or help some customer handle their marketing
-        request.
+        Looking to make a request  click the button below
       </p>
 
       <div className="flex items-center justifty-between w-full p-4 gap-4 font-bold">
@@ -42,7 +41,6 @@ const HeaderHub = ({ isLogged, serverJobs }: HeaderHub) => {
       </div>
 
       <div>
-      <h2 className="bg-[#222] p-2 mb-4 text-2xl font-bold rounded-lg capitalize">All de other work</h2>
         {workerMarker && (
           <div className="flex flex-col gap-4 w-[100%] h-[800px] overflow-auto flex-wrap">
           

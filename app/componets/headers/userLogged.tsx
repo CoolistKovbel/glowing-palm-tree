@@ -9,7 +9,7 @@ import LogoutButton from "../logoutbutton";
 
 interface UserLoggedProps {
   isLogged: boolean;
-  userCart:any;
+  userCart: any;
 }
 
 const UserLogged = ({ isLogged, userCart }: UserLoggedProps) => {
@@ -32,7 +32,6 @@ const UserLogged = ({ isLogged, userCart }: UserLoggedProps) => {
       const sign = await signer.signMessage(sendMessage);
 
       onOpen("signUserIn", JSON.stringify({ sign: sign, sAd: sAd }));
-      
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +41,6 @@ const UserLogged = ({ isLogged, userCart }: UserLoggedProps) => {
     <>
       {isLogged ? (
         <nav className=" w-[40%] relative flex items-center justify-between bg-[#555] drop-shadow-lg p-4 z-[100]">
-          
           <div className="flex items-center md:gap-5">
             <Link href="/about" className="bg-[#222] p-2 hover:underline ">
               About
@@ -50,18 +48,22 @@ const UserLogged = ({ isLogged, userCart }: UserLoggedProps) => {
             <Link href="/shop" className="bg-[#222] p-2 hover:underline ">
               Shop
             </Link>
-            <Link href={"/cart"} className="bg-[#222] p-2 hover:underline relative">Cart <span className="p-2 bg-[#444] absolute -top-5 -right-5 rounded-full">{JSON.parse(userCart).length}</span></Link>
+            <Link
+              href={"/cart"}
+              className="bg-[#222] p-2 hover:underline relative"
+            >
+              Cart{" "}
+              <span className="p-2 bg-[#444] absolute -top-5 -right-5 rounded-full">
+                {JSON.parse(userCart).length}
+              </span>
+            </Link>
           </div>
 
           <button
             onClick={() => sethandleUserToggle((prev: any) => !prev)}
             className="bg-[#444] p-2 rounded-lg drop-shadow-lg"
           >
-
-            <span className="rotate-45">
-             🌠
-            </span>
-
+            <span className="rotate-45">🌠</span>
           </button>
 
           {handleUserToggle && (
@@ -90,6 +92,9 @@ const UserLogged = ({ isLogged, userCart }: UserLoggedProps) => {
             </Link>
             <Link href="/contact" className=" p-2 hover:underline ">
               Contact
+            </Link>
+            <Link href="/hub" className=" p-2 hover:underline ">
+              hub
             </Link>
           </div>
 

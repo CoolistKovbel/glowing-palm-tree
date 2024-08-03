@@ -8,7 +8,7 @@ import { ModalProvider } from "./componets/providers/model-provider";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Checkout } from "./models/Checkout";
+import { getUserCheckout } from "./lib/getUserLib";
 
 export const metadata: Metadata = {
   title: "Ezpeaid",
@@ -21,22 +21,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   // Grabbing user from server
   const user = await getSession();
-  let gg:any = {};
+  let gg: any = {};
 
   // Checkout
-  if(user.isLoggedIn) {
-
-    gg = await Checkout.find({
-      customer: user.userId,
-    });
-
-    gg = gg.filter((item:any) => item.pendingShipping === true)
-
+  if (user.isLoggedIn === true) {
+    gg = await getUserCheckout(user.userId as string);
   }
-  
 
   return (
     <html lang="en">

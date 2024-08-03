@@ -15,10 +15,7 @@ export const metadata: Metadata = {
 };
 
 const page = async () => {
-
   const user = await getSession();
-
-
 
 
   return (
@@ -27,12 +24,6 @@ const page = async () => {
       <HeaderHero />
 
       <StoreFooter1 user={user} />
-
-      <StoreFooter2 user={user}/>
-
-      <StoreFooter3 user={user} />
-
-      <StoreFooter4 user={user} />
 
     </main>
   );

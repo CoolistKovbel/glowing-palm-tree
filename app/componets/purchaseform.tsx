@@ -45,7 +45,8 @@ const PurchaseForm = ({ user, storeItem }: PurchaseFormProps) => {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={handleFormSubmit} className="flex items-center justify-between w-full bg-[#111] p-4 mt-4">
+
       <label htmlFor="amountNeed" className="flex flex-col gap-4">
         <span className="text-2xl">Amount: </span>
 
@@ -65,6 +66,7 @@ const PurchaseForm = ({ user, storeItem }: PurchaseFormProps) => {
           <Link href="/">login</Link>
         )}
       </button>
+
     </form>
   );
 };

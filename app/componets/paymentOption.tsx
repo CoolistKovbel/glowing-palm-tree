@@ -6,6 +6,7 @@ import { createOrder, updateCurrentOrder } from "../lib/action";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Spinner from "./ui/spinner";
+import { checkUserAddress } from "../lib/getUserLib";
 
 interface PaymentOptionProp {
   transactions: any;
@@ -28,45 +29,57 @@ export const PaymentOption = ({ transactions, user }: PaymentOptionProp) => {
       console.log("submiting trnasaction");
       const etherPrice = 3200;
       // const price = (paymentTotal * 49.99) / etherPrice;
-      const price = (paymentTotal * 3) / etherPrice;
-      const gg = new ethers.providers.Web3Provider(window.ethereum);
-      const message = `You have enough $$ for your order`;
+      console.log("Checking to see if user has an address");
+      const userAddress = await checkUserAddress(user.userId);
 
-      const signer = gg.getSigner();
-      const address = await signer.getAddress();
-      const sign: any = await signer.signMessage(message);
+      if (userAddress !== null ) {
+        const price = (paymentTotal * 3) / etherPrice;
+        const gg = new ethers.providers.Web3Provider(window.ethereum);
+        const message = `You have enough $$ for your order`;
 
-      const authorizationPrep = ethers.utils.verifyMessage(message, sign);
-      const amountInWei = ethers.utils.parseEther(price.toString());
+        const signer = gg.getSigner();
+        const address = await signer.getAddress();
+        const sign: any = await signer.signMessage(message);
 
-      if (authorizationPrep.toLowerCase() === address.toLowerCase()) {
-        console.log("address correct");
+        const authorizationPrep = ethers.utils.verifyMessage(message, sign);
+        const amountInWei = ethers.utils.parseEther(price.toString());
 
-        const basictranasction = await signer.sendTransaction({
-          value: amountInWei,
-          gasLimit: 900000,
-          to: "0x1C352E8F3e035c524F2385818b44859906d3c705",
-        });
+        if (authorizationPrep.toLowerCase() === address.toLowerCase()) {
+          console.log("address correct");
 
-        console.log(basictranasction);
-        setIsLoading(true);
-        toast(`Setting transactoin ${JSON.stringify(basictranasction.hash)}`);
+          const basictranasction = await signer.sendTransaction({
+            value: amountInWei,
+            gasLimit: 900000,
+            to: "0x1C352E8F3e035c524F2385818b44859906d3c705",
+          });
 
-        await basictranasction.wait();
-        const transaction: any = await createOrder(sign, user);
+          console.log(basictranasction);
+          setIsLoading(true);
+          toast(`Setting transactoin ${JSON.stringify(basictranasction.hash)}`);
 
-        if (transaction.status === "error") {
-          toast(transaction.payload as string);
+          await basictranasction.wait();
+          const transaction: any = await createOrder(sign, user);
+
+          if (transaction.status === "error") {
+            toast(transaction.payload as string);
+          }
+
+          if (transaction.status === "success") {
+            router.push(
+              `/shop/confirmation?id=${transaction.payload as string}`
+            );
+          }
+
+          setIsLoading(false);
+
+          toast(
+            `completing transactoin ${JSON.stringify(basictranasction.hash)}`
+          );
         }
 
-        if (transaction.status === "success") {
-          router.push(`/shop/confirmation?id=${transaction.payload as string}`);
-        }
-
-        setIsLoading(false);
-
+      } else {
         toast(
-          `completing transactoin ${JSON.stringify(basictranasction.hash)}`
+          "there doesnt seem to be an address, please make sure your account is updated"
         );
       }
     } catch (error) {
