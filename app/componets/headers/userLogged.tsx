@@ -40,7 +40,7 @@ const UserLogged = ({ isLogged, userCart }: UserLoggedProps) => {
   return (
     <>
       {isLogged ? (
-        <nav className=" w-[40%] relative flex items-center justify-between bg-[#555] drop-shadow-lg p-4 z-[100]">
+        <nav className=" w-[50%] relative flex items-center justify-between bg-[#555] drop-shadow-lg p-4 z-[100]">
           <div className="flex items-center md:gap-5">
             <Link href="/about" className="bg-[#222] p-2 hover:underline ">
               About
@@ -82,7 +82,7 @@ const UserLogged = ({ isLogged, userCart }: UserLoggedProps) => {
           )}
         </nav>
       ) : (
-        <nav className="w-[40%] flex items-center justify-between bg-[#444] p-4">
+        <nav className="w-[50%] flex items-center justify-between bg-[#444] p-4">
           <div className="flex items-center  w-[50%]">
             <Link href="/about" className=" p-2 hover:underline ">
               About

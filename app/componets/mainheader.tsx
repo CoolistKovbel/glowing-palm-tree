@@ -13,6 +13,7 @@ const MainHeader = ({ userSession, userCart }: MainHeaderProps) => {
 
   return (
     <header className="bg-[#222] p-4 text-white flex items-center justify-around w-full">
+    
       <h2 className="text-2xl p-3 drop-shadow-lg">
         <Link href="/">Ezuaid</Link>
       </h2>

@@ -20,7 +20,9 @@ const Page = async () => {
 
   ];
 
-  const jobRequests = await Job.find({}).lean()
+  const jobRequests = []
+
+
 
 
   return (
